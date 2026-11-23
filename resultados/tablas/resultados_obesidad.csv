@@ -67,3 +67,23 @@ obesidad,E2,MLP,final,recall_macro,0.7060541372996998,,test
 obesidad,E2,MLP,final,f1_macro,0.7078690099907491,,test
 obesidad,E2,MLP,final,roc_auc_ovr,0.9226608153755099,,test
 obesidad,E2,MLP,final,kappa_cuadratico,0.8489705371381734,,test
+obesidad,E2,KNN,seleccion L1: C=0.01,f1_macro,0.39829362570400656,0.052623501215337744,CV
+obesidad,E2,KNN,seleccion L1: C=0.01,columnas_conservadas,5.0,,CV
+obesidad,E2,KNN,seleccion L1: C=0.05,f1_macro,0.6630050757069095,0.01978759719091439,CV
+obesidad,E2,KNN,seleccion L1: C=0.05,columnas_conservadas,12.0,,CV
+obesidad,E2,KNN,seleccion L1: C=0.1,f1_macro,0.6623737372963878,0.020639224836374512,CV
+obesidad,E2,KNN,seleccion L1: C=0.1,columnas_conservadas,14.133333333333333,,CV
+obesidad,E2,KNN,seleccion L1: C=0.5,f1_macro,0.6584846844260863,0.02248628459251564,CV
+obesidad,E2,KNN,seleccion L1: C=0.5,columnas_conservadas,16.4,,CV
+obesidad,E2,KNN,seleccion L1: C=1,f1_macro,0.6582831540933596,0.02232857355116305,CV
+obesidad,E2,KNN,seleccion L1: C=1,columnas_conservadas,17.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.01,f1_macro,0.469528457941536,0.04248323290477034,CV
+obesidad,E2,MLP,seleccion L1: C=0.01,columnas_conservadas,5.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.05,f1_macro,0.6947781974209044,0.02769760466828396,CV
+obesidad,E2,MLP,seleccion L1: C=0.05,columnas_conservadas,12.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.1,f1_macro,0.6903043079447861,0.025550724138801172,CV
+obesidad,E2,MLP,seleccion L1: C=0.1,columnas_conservadas,14.133333333333333,,CV
+obesidad,E2,MLP,seleccion L1: C=0.5,f1_macro,0.7067345826741352,0.03198794008251888,CV
+obesidad,E2,MLP,seleccion L1: C=0.5,columnas_conservadas,16.4,,CV
+obesidad,E2,MLP,seleccion L1: C=1,f1_macro,0.7010155150582321,0.03228780936993999,CV
+obesidad,E2,MLP,seleccion L1: C=1,columnas_conservadas,17.0,,CV
