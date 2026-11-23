@@ -16,10 +16,10 @@ Los métodos nuevos frente a los autores de cada dataset son **KNN** y un **perc
 
 | Integrante | Código | Notebook |
 |---|---|---|
-| Eros Bellido | 20182315 | `03_obesidad_exploracion` |
-| Eduardo Tello | 20212654 | `02_estudiantes_modelado` |
-| Marcelo Cueto | 20200614 | `04_obesidad_modelado`, `utilidades.py` y coordinación |
-| [Integrante 4] | [código] | `01_estudiantes_exploracion` |
+| Eros Aaron Ricardo Bellido Mera | 20182315 | `03_obesidad_exploracion` |
+| Eduardo Gabriel Tello Yparraguirre | 20212654 | `02_estudiantes_modelado` |
+| Marcelo David Jesus Cueto Vassallo | 20200614 | `04_obesidad_modelado`, `utilidades.py` y coordinación |
+| Edson Gerardo Vasquez Solis | 20193599 | `01_estudiantes_exploracion` |
 
 ## Estructura del repositorio
 

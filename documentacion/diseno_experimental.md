@@ -266,7 +266,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 | **Marcelo** | `utilidades.py`, coordinación, revisión cruzada y `04_obesidad_modelado` | Metodología (figura del flujo), Introducción, Conclusiones, Declaración de uso de IA e integración final |
 | **Eros** | `03_obesidad_exploracion` | Antecedentes (datasets y trabajos previos), Experimentación: descripción y EDA de obesidad, párrafo ético de obesidad |
 | **Eduardo** | `02_estudiantes_modelado` | Antecedentes (KNN, MLP, Optuna y SMOTENC), Experimentación: modelado de estudiantes, Resultados de estudiantes |
-| **Integrante 4** | `01_estudiantes_exploracion` | Experimentación: descripción y EDA de estudiantes, párrafo ético de estudiantes, Resultados de obesidad |
+| **Edson** | `01_estudiantes_exploracion` | Experimentación: descripción y EDA de estudiantes, párrafo ético de estudiantes, Resultados de obesidad |
 
 - Discusión: la escriben juntos los dos responsables del modelado; Marcelo integra.
 - Aportes: se redacta al final a partir del historial de *commits*.

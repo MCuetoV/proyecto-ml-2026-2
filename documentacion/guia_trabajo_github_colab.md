@@ -40,7 +40,7 @@ proyecto-ml-2026-2/
 
 | Archivo | Responsable | Entorno |
 |---|---|---|
-| `01_estudiantes_exploracion.ipynb` | Integrante 4 | Colab |
+| `01_estudiantes_exploracion.ipynb` | Edson Vasquez | Colab |
 | `02_estudiantes_modelado.ipynb` | Eduardo Tello | Colab |
 | `03_obesidad_exploracion.ipynb` | Eros Bellido | Colab |
 | `04_obesidad_modelado.ipynb` | Marcelo Cueto | VS Code |
