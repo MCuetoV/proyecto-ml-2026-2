@@ -1,9 +1,9 @@
 # Proyecto ML — Análisis de la consigna (Paso 1: entendimiento)
 
-**Fecha:** 17/11/2026 · **Actualizado:** 18/11/2026 (secciones 9–11: inventario del curso, matriz de cobertura y registro de decisiones)
+**Fecha:** 17/11/2026 · **Actualizado:** 22/11/2026 (Fase 0: métodos de Martins et al. confirmados; trabajos previos del grupo de obesidad; secciones 2, 10.2, 11 y Fuentes)
 **Curso:** Machine Learning (650064) — ULima, 2026-2
 **Entrega:** viernes 27/11/2026
-**Estado:** Análisis de la consigna y del material del curso completos. Todavía no hay soluciones ni código. El siguiente paso es fijar las decisiones de diseño.
+**Estado:** Fase 0 cerrada (22/11). Las decisiones de diseño se fijan en `diseno_experimental.md` (Fase 1).
 
 ---
 
@@ -20,6 +20,7 @@
 - **Cruce con el curso (sección 10):**
   - Los dos métodos **vistos en clase** que ningún autor usó, en ninguno de los dos datasets, son **MLP y KNN**.
   - Además, en obesidad están permitidos **SVM, Random Forest y XGBoost** (vistos en clase, pero solo usados por los autores de estudiantes).
+  - ⚠️ *Matiz del 22/11:* el grupo de autores de obesidad usó MLP, RF y SVM en otro dataset (Molina et al., 2021), y AdaBoost es frontera en estudiantes. Ver sección 2.
   - **Optuna y los algoritmos genéticos no se vieron en clase.** Son la extensión que la consigna exige; GridSearchCV (sí visto) sirve como punto de comparación.
 
 ---
@@ -60,18 +61,26 @@
 
 ### Obesidad
 - El paper del enlace (Mendoza Palechor & De la Hoz Manotas, 2019, *Data in Brief* 25:104344) es un **data descriptor**: no entrena modelos. Remite al artículo completo *"Obesity Level Estimation Software based on Decision Trees"* (De-La-Hoz-Correa et al., 2019).
-- Ese trabajo usó la metodología SEMMA con **J48 (árbol de decisión), Naive Bayes y regresión logística (Simple Logistic)**. J48 fue el mejor, con ~97.4% de precisión.
+- Ese trabajo (*Journal of Computer Science*, 15(1), 67–77, https://doi.org/10.3844/jcssp.2019.67.77) usó la metodología SEMMA con **J48 (árbol de decisión), Naive Bayes y regresión logística (Simple Logistic)**. J48 fue el mejor, con ~97.4% de precisión. ✅ Confirmado el 22/11 por las palabras clave del registro del repositorio institucional y el resumen de la revista.
 - → **Descartados:** árboles de decisión, Naive Bayes y regresión logística.
+- ⚠️ **Hallazgo del 22/11:** el mismo grupo (Molina, De-La-Hoz y Mendoza, 2021, *Journal of Theoretical and Applied Information Technology*, 99(11)) entrenó **LMT, Random Forest, MLP y SVM (SMO)**, con selección de atributos (InfoGain, GainRatio, chi² y Relief) y CV de 10 *folds*. Usó **otro conjunto de datos**: 178 estudiantes reales de 18 a 25 años, sin SMOTE. No son "los autores" del dataset de UCI ni de su artículo asociado, pero un evaluador podría objetar MLP, RF o SVM como "ya usados por los autores". → Declararlo con transparencia en Antecedentes y preferir métodos que tampoco use ese grupo.
+- Cañas Cervantes y Martínez Palacio (2020, *Informatics in Medicine Unlocked*, 21, 100472) usaron K-means, árboles de decisión y SVM sobre este dataset. No son los autores; sirve para Antecedentes.
 
 ### Estudiantes
 - **Martins et al. (2021)**, *"Early Prediction of Student's Performance in Higher Education: A Case Study"* (WorldCIST), es el paper introductorio en UCI. Sus palabras clave incluyen clases desbalanceadas, clasificación multiclase y métodos de boosting.
-  - Por lo que sé del paper: **LR, SVM, árbol de decisión y Random Forest, más cuatro métodos de boosting (Gradient Boosting, XGBoost, CatBoost y LightGBM)**.
-  - ⚠️ **PENDIENTE:** confirmarlo leyendo su sección de métodos.
+  - ✅ **Confirmado el 22/11** (el texto completo es de pago; fuente secundaria que describe el procedimiento, coherente con el resumen y la lista de referencias del original: estudio comparativo en *Discover Artificial Intelligence*, 2024, https://doi.org/10.1007/s44163-023-00079-z, autores [VERIFICAR]):
+    - **DT, SVM, LR y RF**, primero sin ajuste y luego con *grid search*.
+    - **SMOTE vs. ADASYN**: SMOTE fue mejor; los cuatro modelos se reentrenaron con SMOTE.
+    - **Boosting:** Gradient Boosting, XGBoost, CatBoost y **LogitBoost** (no LightGBM), ajustados con búsqueda aleatoria. XGBoost fue el mejor, muy cerca de Gradient Boosting.
+    - Métrica: **F1 promedio de las tres clases** para el ajuste y accuracy como métrica global.
+    - **Datos: 3623 registros y 25 variables, solo información disponible al momento de la matrícula.** Las notas del primer año figuran como trabajo futuro. La versión de UCI (4424 × 36) es una ampliación posterior. → El escenario "al matricularse" es el único comparable con los autores.
+  - **LogitBoost** proviene de la relectura de AdaBoost como regresión logística aditiva (Friedman et al., 2000, citado por los autores). → **AdaBoost es un método "frontera" en estudiantes.**
+  - El estudio de 2024 ya usó Optuna y SHAP sobre este dataset: citarlo en Antecedentes.
 - **Realinho et al. (2022)**, *Data* 7(11):146, es el descriptor. Menciona RF, XGBoost, LightGBM y CatBoost solo en el análisis de importancia de features por permutación, no como modelos reportados. Cita SMOTE, ADASYN, Balanced RF y Easy Ensemble como opciones, pero no dice haberlos aplicado.
 - → **Descartados:** LR, SVM, DT, RF y toda la familia de gradient boosting.
 
 ### Consecuencia
-- Lo que nadie usó: **MLP (red neuronal), KNN, Extra Trees, AdaBoost, LDA/QDA, regresión ordinal, stacking y TabNet**.
+- Lo que nadie usó: **MLP (red neuronal), KNN, Extra Trees, AdaBoost, LDA/QDA, regresión ordinal, stacking y TabNet**. Matices del 22/11: MLP, RF y SVM sí los usó el grupo de obesidad con otro dataset (Molina et al., 2021), y AdaBoost es frontera en estudiantes (LogitBoost). **KNN es el único método del curso limpio en todos los casos.**
 - Si se eligen **los mismos 2–3 métodos nuevos para ambos datasets**, la justificación y la comparativa salen más limpias, y el trabajo se reparte mejor.
 - ⚠️ Evitar métodos "frontera" como HistGradientBoosting: sigue siendo gradient boosting y un evaluador podría objetarlo.
 
@@ -278,24 +287,25 @@ pandas, numpy, scikit-learn, imbalanced-learn, PyTorch, XGBoost, statsmodels, sc
 
 | Método | ¿Visto en clase? | Autores obesidad (J48, NB, LR) | Autores estudiantes (LR, SVM, DT, RF, boosting)¹ | Apto en obesidad | Apto en estudiantes |
 |---|---|---|---|---|---|
-| **MLP (red neuronal)** | Sí (PyTorch) | No usado | No usado | ✅ | ✅ |
+| **MLP (red neuronal)** | Sí (PyTorch) | No usado² | No usado | ✅² | ✅ |
 | **KNN** | Parcial (imputador, prueba, sílabo sem. 2/7) | No usado | No usado | ✅ | ✅ |
-| SVM | Sí (sem. 10–11) | No usado | Usado | ✅ | ❌ |
-| Random Forest | Sí (desde cero) | No usado | Usado | ✅ | ❌ |
+| SVM | Sí (sem. 10–11) | No usado² | Usado | ✅² | ❌ |
+| Random Forest | Sí (desde cero) | No usado² | Usado | ✅² | ❌ |
 | XGBoost | Usado en notebooks; teoría pendiente (sem. 12) | No usado | Usado | ✅ | ❌ |
-| AdaBoost | Pendiente (sem. 12) | No usado | No usado¹ | ✅ si se dicta | ✅ si se dicta |
+| AdaBoost | Pendiente (sem. 12) | No usado | Frontera¹ | ✅ si se dicta | ⚠️ frontera |
 | Naive Bayes | Pendiente (sem. 13) | Usado | No usado | ❌ | ✅ si se dicta |
 | Ridge / Lasso / Elastic Net | Sí (regresión) | Logística sí | Logística sí | Solo como regresión del IMC | ❌ |
 | Árbol de decisión | Sí | Usado | Usado | ❌ | ❌ |
 | Regresión logística | Sí | Usado | Usado | ❌ (solo como reproducción de los autores) | ❌ (ídem) |
 
-¹ Lista de Martins et al. (2021) pendiente de confirmar (ver sección 2).
+¹ Martins et al. (2021) usaron LogitBoost, variante de AdaBoost (confirmado el 22/11; ver sección 2).
+² Usado por el mismo grupo de autores con otro dataset de 178 registros (Molina et al., 2021). Defendible, pero se declara.
 
 **Lectura:**
 - **MLP y KNN** cumplen el requisito en los dos datasets con material del curso, y se justifican por sí solos.
   - MLP: el PPT de tipos de redes indica *datos tabulares → MLP*, y su ajuste fino es la estrategia (b).
   - KNN: modelo basado en distancias, que contrasta con los modelos de árboles y lineales de los autores. Exige un buen encoding y escalado, que son temas del curso.
-- **Tercer método opcional:** SVM o RF en obesidad (ya vistos en clase), o AdaBoost en ambos si se dicta a tiempo.
+- **Tercer método opcional:** SVM o RF en obesidad (ya vistos en clase), o AdaBoost en ambos si se dicta a tiempo. *Revisado el 22/11: SVM y RF quedan debilitados en obesidad (nota ²) y AdaBoost en estudiantes (nota ¹); se decide en el documento de diseño.*
 - **Para regresión en obesidad (opcional):** predecir el IMC con SVR, MLP o Elastic Net, mapearlo a las 7 clases y comparar. Conecta con el "clasificación o regresión" de la consigna y con el target ordinal.
 
 ### 10.3 Decisión pendiente de implementación: ¿MLP en PyTorch o en scikit-learn?
@@ -331,15 +341,23 @@ pandas, numpy, scikit-learn, imbalanced-learn, PyTorch, XGBoost, statsmodels, sc
 | 22/11 | El equipo tiene **4 integrantes**: Eros Bellido (20182315), Eduardo Tello (20212654), Marcelo Cueto (20200614) y un cuarto integrante cuyos datos están pendientes. |
 | 22/11 | **Repositorio en GitHub:** `MCuetoV/proyecto-ml-2026-2` (privado; confirmar visibilidad), clonado en `CURSOS_UNIVERSIDAD/MachineLearning/proyecto-ml-2026-2`. Marcelo trabaja en VS Code y el resto en Colab conectado a GitHub, de modo que cada *commit* registra a su autor. Guía completa en `proyecto-ML/guia_trabajo_github_colab.md`. |
 | 22/11 | **Organización del código:** cuatro notebooks (exploración y modelado de cada dataset), cada uno con un solo responsable, y `utilidades.py` para las funciones comunes, editado solo por Marcelo. Los notebooks gemelos siguen la misma estructura de secciones, alineada con el reporte. Las tablas y figuras del reporte las genera el código en `resultados/`. Responsables por definir. |
+| 22/11 | **Fase 0 cerrada.** Métodos de Martins et al. (2021) confirmados: DT, SVM, LR, RF, Gradient Boosting, XGBoost, CatBoost y LogitBoost, con SMOTE; datos de 3623 × 25 solo de matrícula. AdaBoost pasa a método frontera en estudiantes. |
+| 22/11 | Hallazgo: el grupo de autores de obesidad usó MLP, RF, SVM y LMT en otro dataset de 178 registros (Molina et al., 2021). Se declara en Antecedentes; KNN es el único método del curso limpio en ambos datasets. |
+| 22/11 | Límites de páginas sin aclarar por el profesor: se asumen **totales**. Redacción concisa, sin relleno. |
+| 22/11 | Datos del cuarto integrante: los agrega el equipo manualmente al final. Visibilidad del repositorio e invitaciones: a cargo de Marcelo. Título: se define al final. Sin material nuevo en la clase del 18/11. |
+| 22/11 | Marcelo pide trabajar el código **usando Git correctamente**; el flujo se define en el documento de diseño. |
+| 22/11 | Los CSV de UCI no se pueden descargar desde los entornos de Claude (proxy bloquea archive.ics.uci.edu): Marcelo los descarga y los coloca en `datos/`. |
 
-**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11). Todo con Claude (Anthropic).
+**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11); verificación en fuentes de los métodos usados por los autores de ambos datasets y revisión del estado del repositorio (Fase 0, 22/11). Todo con Claude (Anthropic).
 
 ---
 
 ## Fuentes
 - Mendoza Palechor, F., & De la Hoz Manotas, A. (2019). Dataset for estimation of obesity levels based on eating habits and physical condition in individuals from Colombia, Peru and Mexico. *Data in Brief, 25*, 104344. https://doi.org/10.1016/j.dib.2019.104344 — PDF: https://rcastoragev2.blob.core.windows.net/92f60d2730c6f5dd7bf2775c4e89de41/PMC6710633.pdf
-- De-La-Hoz-Correa, E., Mendoza Palechor, F., De-La-Hoz-Manotas, A., Morales Ortega, R., & Sánchez Hernández, A. B. (2019). Obesity level estimation software based on decision trees. https://hdl.handle.net/11323/4176
-- Molina, D., De-la-Hoz, A., & Mendoza, F. — Trabajos previos sobre predicción de obesidad (CORE): https://core.ac.uk/download/475504217.pdf
+- De-La-Hoz-Correa, E., Mendoza Palechor, F., De-La-Hoz-Manotas, A., Morales Ortega, R., & Sánchez Hernández, A. B. (2019). Obesity level estimation software based on decision trees. *Journal of Computer Science, 15*(1), 67–77. https://doi.org/10.3844/jcssp.2019.67.77 (repositorio: https://hdl.handle.net/11323/4176)
+- Molina, D., De-La-Hoz, A., & Mendoza, F. (2021). Classification and features selection method for obesity level prediction. *Journal of Theoretical and Applied Information Technology, 99*(11). https://core.ac.uk/download/475504217.pdf
+- Cañas Cervantes, R., & Martínez Palacio, U. (2020). Estimation of obesity levels based on computational intelligence. *Informatics in Medicine Unlocked, 21*, 100472.
+- [VERIFICAR autores] (2024). Supervised machine learning algorithms for predicting student dropout and academic success: A comparative study. *Discover Artificial Intelligence*. https://doi.org/10.1007/s44163-023-00079-z
 - UCI — Estimation of Obesity Levels: https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition (DOI 10.24432/C5H31Z)
 - Realinho, V., Machado, J., Baptista, L., & Martins, M. V. (2022). Predicting Student Dropout and Academic Success. *Data, 7*(11), 146. https://doi.org/10.3390/data7110146 — PDF: https://dorsu.edu.ph/faculty/jscabrera/wp-content/uploads/2022/12/data-07-00146.pdf
 - Martins, M. V., Tolledo, D., Machado, J., Baptista, L. M. T., & Realinho, V. (2021). Early prediction of student's performance in higher education: A case study. En *Trends and Applications in Information Systems and Technologies* (WorldCIST 2021), pp. 166–175. https://doi.org/10.1007/978-3-030-72657-7_16
