@@ -66,3 +66,23 @@ estudiantes,E2,MLP,final,precision_macro,0.7069673265716432,,test
 estudiantes,E2,MLP,final,recall_macro,0.6826420879546514,,test
 estudiantes,E2,MLP,final,f1_macro,0.6894366120233667,,test
 estudiantes,E2,MLP,final,roc_auc_ovr,0.8809764149574638,,test
+estudiantes,E1,KNN,seleccion L1: C=0.01,f1_macro,0.49984771188204125,0.010674019849815303,CV
+estudiantes,E1,KNN,seleccion L1: C=0.01,columnas_conservadas,7.533333333333333,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.05,f1_macro,0.5076213306812616,0.019252932788137656,CV
+estudiantes,E1,KNN,seleccion L1: C=0.05,columnas_conservadas,43.0,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.1,f1_macro,0.49784516561414277,0.013429159295516638,CV
+estudiantes,E1,KNN,seleccion L1: C=0.1,columnas_conservadas,65.93333333333334,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.5,f1_macro,0.49255737036035313,0.013787772773511326,CV
+estudiantes,E1,KNN,seleccion L1: C=0.5,columnas_conservadas,85.66666666666667,,CV
+estudiantes,E1,KNN,seleccion L1: C=1,f1_macro,0.4923589573626194,0.012879195480011223,CV
+estudiantes,E1,KNN,seleccion L1: C=1,columnas_conservadas,88.46666666666667,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.01,f1_macro,0.44064471157939644,0.010539691532924082,CV
+estudiantes,E1,MLP,seleccion L1: C=0.01,columnas_conservadas,6.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.05,f1_macro,0.514098076139449,0.025932368621865973,CV
+estudiantes,E1,MLP,seleccion L1: C=0.05,columnas_conservadas,20.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.1,f1_macro,0.5443763622489802,0.015447609076298436,CV
+estudiantes,E1,MLP,seleccion L1: C=0.1,columnas_conservadas,41.666666666666664,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,f1_macro,0.5491476021352301,0.022444060954646863,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,columnas_conservadas,83.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=1,f1_macro,0.5458947634729991,0.02938854641571412,CV
+estudiantes,E1,MLP,seleccion L1: C=1,columnas_conservadas,88.13333333333334,,CV
