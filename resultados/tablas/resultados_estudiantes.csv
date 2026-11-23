@@ -1,0 +1,68 @@
+dataset,escenario,modelo,configuracion,metrica,media,desviacion,particion
+estudiantes,E1,Dummy,"{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",f1_macro,0.2220127366888166,0.00018733422779423448,CV
+estudiantes,E2,Dummy,"{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",f1_macro,0.2220127366888166,0.00018733422779423448,CV
+estudiantes,E1,RF (autores),"{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': 10, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'n_estimators': 500, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}",f1_macro,0.561091482115799,0.011715300026152635,CV
+estudiantes,E2,RF (autores),"{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'n_estimators': 200, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}",f1_macro,0.7155373011537207,0.01545312227790125,CV
+estudiantes,E1,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 34, 'p': 1, 'weights': 'distance'}",f1_macro,0.49042849981392095,0.014643268335989479,CV
+estudiantes,E1,MLP,"{'activation': 'relu', 'alpha': 0.09332383830975852, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (134,), 'learning_rate': 'constant', 'learning_rate_init': 0.0028594642755066916, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'adam', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.552266968473287,0.03044016842991338,CV
+estudiantes,E2,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 21, 'p': 1, 'weights': 'distance'}",f1_macro,0.6381052261884773,0.010940122196375848,CV
+estudiantes,E2,MLP,"{'activation': 'tanh', 'alpha': 0.03060828340777172, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (24, 184), 'learning_rate': 'constant', 'learning_rate_init': 0.027819417887869086, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'sgd', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.6924482094444678,0.024426602629229383,CV
+estudiantes,E1,KNN,balanceo: sin balanceo,f1_macro,0.436008257766366,0.014678090167875857,CV
+estudiantes,E1,KNN,balanceo: SMOTENC,f1_macro,0.49042849981392095,0.014643268335989479,CV
+estudiantes,E1,MLP,balanceo: sin balanceo,f1_macro,0.552266968473287,0.03044016842991338,CV
+estudiantes,E1,MLP,balanceo: SMOTENC,f1_macro,0.5419935833859059,0.02206846299794896,CV
+estudiantes,E1,RF (autores),balanceo: SMOTENC,f1_macro,0.561091482115799,0.011715300026152635,CV
+estudiantes,E1,RF (autores),balanceo: class_weight balanced,f1_macro,0.5806905122714564,0.015168960135917592,CV
+estudiantes,E1,RF (autores),balanceo: sin balanceo,f1_macro,0.47444359241449163,0.007300422687412385,CV
+estudiantes,E1,KNN,seleccion: todas las variables,f1_macro,0.49042849981392095,0.014643268335989479,CV
+estudiantes,E1,KNN,seleccion: selector L1,f1_macro,0.4923589573626194,0.012879195480011223,CV
+estudiantes,E1,MLP,seleccion: todas las variables,f1_macro,0.552266968473287,0.03044016842991338,CV
+estudiantes,E1,MLP,seleccion: selector L1,f1_macro,0.5458947634729991,0.02938854641571412,CV
+estudiantes,E1,Dummy,final,accuracy,0.4994350282485876,,test
+estudiantes,E1,Dummy,final,balanced_accuracy,0.3333333333333333,,test
+estudiantes,E1,Dummy,final,precision_macro,0.1664783427495292,,test
+estudiantes,E1,Dummy,final,recall_macro,0.3333333333333333,,test
+estudiantes,E1,Dummy,final,f1_macro,0.22205476011052497,,test
+estudiantes,E1,Dummy,final,roc_auc_ovr,0.5,,test
+estudiantes,E2,Dummy,final,accuracy,0.4994350282485876,,test
+estudiantes,E2,Dummy,final,balanced_accuracy,0.3333333333333333,,test
+estudiantes,E2,Dummy,final,precision_macro,0.1664783427495292,,test
+estudiantes,E2,Dummy,final,recall_macro,0.3333333333333333,,test
+estudiantes,E2,Dummy,final,f1_macro,0.22205476011052497,,test
+estudiantes,E2,Dummy,final,roc_auc_ovr,0.5,,test
+estudiantes,E1,RF (autores),final,accuracy,0.576271186440678,,test
+estudiantes,E1,RF (autores),final,balanced_accuracy,0.5634925788354687,,test
+estudiantes,E1,RF (autores),final,precision_macro,0.555251019470924,,test
+estudiantes,E1,RF (autores),final,recall_macro,0.5634925788354687,,test
+estudiantes,E1,RF (autores),final,f1_macro,0.5488539235021367,,test
+estudiantes,E1,RF (autores),final,roc_auc_ovr,0.7630060724559066,,test
+estudiantes,E2,RF (autores),final,accuracy,0.7491525423728813,,test
+estudiantes,E2,RF (autores),final,balanced_accuracy,0.6979231174061645,,test
+estudiantes,E2,RF (autores),final,precision_macro,0.7009584710280956,,test
+estudiantes,E2,RF (autores),final,recall_macro,0.6979231174061645,,test
+estudiantes,E2,RF (autores),final,f1_macro,0.6977398718062906,,test
+estudiantes,E2,RF (autores),final,roc_auc_ovr,0.8832871200030473,,test
+estudiantes,E1,KNN,final,accuracy,0.4937853107344633,,test
+estudiantes,E1,KNN,final,balanced_accuracy,0.49719217054415815,,test
+estudiantes,E1,KNN,final,precision_macro,0.5050856881325094,,test
+estudiantes,E1,KNN,final,recall_macro,0.49719217054415815,,test
+estudiantes,E1,KNN,final,f1_macro,0.47559887399312956,,test
+estudiantes,E1,KNN,final,roc_auc_ovr,0.6777979793917003,,test
+estudiantes,E1,MLP,final,accuracy,0.6305084745762712,,test
+estudiantes,E1,MLP,final,balanced_accuracy,0.5276261332091318,,test
+estudiantes,E1,MLP,final,precision_macro,0.5520129764012637,,test
+estudiantes,E1,MLP,final,recall_macro,0.5276261332091318,,test
+estudiantes,E1,MLP,final,f1_macro,0.5286127776450598,,test
+estudiantes,E1,MLP,final,roc_auc_ovr,0.7594288946184583,,test
+estudiantes,E2,KNN,final,accuracy,0.656497175141243,,test
+estudiantes,E2,KNN,final,balanced_accuracy,0.6223195486416321,,test
+estudiantes,E2,KNN,final,precision_macro,0.6450324450324451,,test
+estudiantes,E2,KNN,final,recall_macro,0.6223195486416321,,test
+estudiantes,E2,KNN,final,f1_macro,0.6148308565679604,,test
+estudiantes,E2,KNN,final,roc_auc_ovr,0.832189740437208,,test
+estudiantes,E2,MLP,final,accuracy,0.7672316384180791,,test
+estudiantes,E2,MLP,final,balanced_accuracy,0.6826420879546514,,test
+estudiantes,E2,MLP,final,precision_macro,0.7069673265716432,,test
+estudiantes,E2,MLP,final,recall_macro,0.6826420879546514,,test
+estudiantes,E2,MLP,final,f1_macro,0.6894366120233667,,test
+estudiantes,E2,MLP,final,roc_auc_ovr,0.8809764149574638,,test

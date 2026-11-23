@@ -1,0 +1,7 @@
+modelo,escenario,busqueda,evaluaciones,mejor_macro_f1_cv,hiperparametros
+RF (autores),E1,GridSearchCV,12,0.567836409359848,"{'max_depth': 10, 'max_features': 'sqrt', 'n_estimators': 500}"
+RF (autores),E2,GridSearchCV,12,0.7201994345273283,"{'max_depth': None, 'max_features': 'sqrt', 'n_estimators': 200}"
+KNN,E1,Optuna (TPE),50,0.495680891884217,"{'n_neighbors': 34, 'weights': 'distance', 'p': 1, 'balanceo': True}"
+MLP,E1,Optuna (TPE),100,0.5663373183339211,"{'capas': 1, 'neuronas_1': 134, 'activation': 'relu', 'solver': 'adam', 'alpha': 0.09332383830975852, 'learning_rate_init': 0.0028594642755066916, 'batch_size': 128, 'balanceo': False}"
+KNN,E2,Optuna (TPE),50,0.6452970219351332,"{'n_neighbors': 21, 'weights': 'distance', 'p': 1, 'balanceo': True}"
+MLP,E2,Optuna (TPE),100,0.7140024202326043,"{'capas': 2, 'neuronas_1': 24, 'neuronas_2': 184, 'activation': 'tanh', 'solver': 'sgd', 'alpha': 0.03060828340777172, 'learning_rate_init': 0.027819417887869086, 'batch_size': 128, 'balanceo': False}"

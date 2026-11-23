@@ -1,0 +1,37 @@
+variable,grupo,tipo,valores_distintos,escenario
+Marital status,Demográfica,Nominal,6,E1 y E2
+Application mode,Académica (matrícula),Nominal,18,E1 y E2
+Application order,Académica (matrícula),Ordinal,8,E1 y E2
+Course,Académica (matrícula),Nominal,17,E1 y E2
+Daytime/evening attendance,Académica (matrícula),Binaria,2,E1 y E2
+Previous qualification,Académica (matrícula),Nominal,17,E1 y E2
+Previous qualification (grade),Académica (matrícula),Numérica,101,E1 y E2
+Nacionality,Demográfica,Nominal,21,E1 y E2
+Mother's qualification,Socioeconómica,Nominal,29,E1 y E2
+Father's qualification,Socioeconómica,Nominal,34,E1 y E2
+Mother's occupation,Socioeconómica,Nominal,32,E1 y E2
+Father's occupation,Socioeconómica,Nominal,46,E1 y E2
+Admission grade,Académica (matrícula),Numérica,620,E1 y E2
+Displaced,Demográfica,Binaria,2,E1 y E2
+Educational special needs,Socioeconómica,Binaria,2,E1 y E2
+Debtor,Socioeconómica,Binaria,2,E1 y E2
+Tuition fees up to date,Socioeconómica,Binaria,2,E1 y E2
+Gender,Demográfica,Binaria,2,E1 y E2
+Scholarship holder,Socioeconómica,Binaria,2,E1 y E2
+Age at enrollment,Demográfica,Numérica,46,E1 y E2
+International,Demográfica,Binaria,2,E1 y E2
+Curricular units 1st sem (credited),Académica (1.er semestre),Numérica,21,Solo E2
+Curricular units 1st sem (enrolled),Académica (1.er semestre),Numérica,23,Solo E2
+Curricular units 1st sem (evaluations),Académica (1.er semestre),Numérica,35,Solo E2
+Curricular units 1st sem (approved),Académica (1.er semestre),Numérica,23,Solo E2
+Curricular units 1st sem (grade),Académica (1.er semestre),Numérica,805,Solo E2
+Curricular units 1st sem (without evaluations),Académica (1.er semestre),Numérica,11,Solo E2
+Curricular units 2nd sem (credited),Académica (2.º semestre),Numérica,19,Solo E2
+Curricular units 2nd sem (enrolled),Académica (2.º semestre),Numérica,22,Solo E2
+Curricular units 2nd sem (evaluations),Académica (2.º semestre),Numérica,30,Solo E2
+Curricular units 2nd sem (approved),Académica (2.º semestre),Numérica,20,Solo E2
+Curricular units 2nd sem (grade),Académica (2.º semestre),Numérica,786,Solo E2
+Curricular units 2nd sem (without evaluations),Académica (2.º semestre),Numérica,10,Solo E2
+Unemployment rate,Macroeconómica,Numérica,10,E1 y E2
+Inflation rate,Macroeconómica,Numérica,9,E1 y E2
+GDP,Macroeconómica,Numérica,10,E1 y E2

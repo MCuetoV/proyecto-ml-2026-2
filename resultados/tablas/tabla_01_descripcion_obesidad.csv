@@ -1,0 +1,17 @@
+variable,descripcion,tipo,valores,escenario
+Gender,Sexo,Binaria,"Female, Male",E1 y E2
+Age,Edad (años),Numérica,14 a 61,E1 y E2
+Height,Estatura (m),Numérica,1.45 a 1.98,Solo E1
+Weight,Peso (kg),Numérica,39 a 173,Solo E1
+family_history_with_overweight,Familiar con sobrepeso,Binaria,"no, yes",E1 y E2
+FAVC,Consume alimentos hipercalóricos con frecuencia,Binaria,"no, yes",E1 y E2
+FCVC,Frecuencia de consumo de verduras,Ordinal,1 a 3,E1 y E2
+NCP,Número de comidas principales al día,Ordinal,1 a 4,E1 y E2
+CAEC,Come entre comidas,Ordinal,"Always, Frequently, Sometimes, no",E1 y E2
+SMOKE,Fuma,Binaria,"no, yes",E1 y E2
+CH2O,Agua que bebe al día,Ordinal,1 a 3,E1 y E2
+SCC,Controla las calorías que consume,Binaria,"no, yes",E1 y E2
+FAF,Frecuencia de actividad física,Ordinal,0 a 3,E1 y E2
+TUE,Tiempo de uso de dispositivos tecnológicos,Ordinal,0 a 2,E1 y E2
+CALC,Consumo de alcohol,Ordinal,"Frequently, Sometimes, no",E1 y E2
+MTRANS,Medio de transporte habitual,Nominal,"Automobile, Bike, Motorbike, Public_Transportation, Walking",E1 y E2

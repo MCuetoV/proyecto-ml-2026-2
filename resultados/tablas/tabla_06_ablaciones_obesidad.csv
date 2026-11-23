@@ -1,0 +1,5 @@
+ablacion,modelo,variante,media,desviacion
+seleccion,KNN,todas las variables,0.6582831540933596,0.02232857355116305
+seleccion,KNN,selector L1,0.6582831540933596,0.02232857355116305
+seleccion,MLP,todas las variables,0.7010155150582321,0.03228780936993999
+seleccion,MLP,selector L1,0.7010155150582321,0.03228780936993999
