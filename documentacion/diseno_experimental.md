@@ -3,7 +3,7 @@
 **Proyecto:** Machine Learning (650064), ULima 2026-2 · **Entrega:** viernes 27/11/2026
 **Versión:** 1.4 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3; 1.4 fija el criterio del test de obesidad y agrega `codificar_objetivo`) · **Fecha:** 22/11/2026
 **Base:** `enunciado_proyecto_ML.md`, `2026-11-17_analisis-consigna-proyecto-ML.md` (secciones 2, 9, 10 y 11) y verificación directa de los CSV oficiales de UCI.
-**Estado:** aprobado por Marcelo el 22/11/2026. Decisiones: Git todo en `main`; XGBoost en obesidad como primer extra; reparto de la sección 13; resto del diseño sin cambios.
+**Estado:** aprobado por Marcelo el 22/11/2026 e implementado (Fase 3 cerrada). Decisiones: Git todo en `main`; reparto de la sección 13; **extras descartados** (§14).
 
 ---
 
@@ -12,14 +12,14 @@
 | # | Decisión | Elección |
 |---|---|---|
 | 1 | Escenarios | Obesidad: **E1 con** Height/Weight y **E2 sin** ellos (principal: **E2**). Estudiantes: **E1 matrícula** (24 variables) y **E2 fin del 2.º semestre** (36) (principal: **E1**). |
-| 2 | Métodos nuevos | **MLP + KNN** en ambos datasets. Tercero opcional: **XGBoost solo en obesidad**. |
+| 2 | Métodos nuevos | **MLP + KNN** en ambos datasets. |
 | 3 | Referencias | `DummyClassifier` + método de los autores reproducido: **árbol de decisión (CART ≈ J48)** en obesidad y **Random Forest con sobremuestreo** en estudiantes, ambos ajustados con `GridSearchCV`, como hicieron los autores. |
 | 4 | MLP | `MLPClassifier` de scikit-learn con *early stopping*. |
 | 5 | Preprocesamiento | Estudiantes: *one-hot* con agrupación de niveles raros. Obesidad: eliminar 24 duplicados exactos y **redondear a la precisión de la encuesta** (borra la huella de SMOTE). Escalado estándar. Todo dentro del `Pipeline`. |
 | 6 | Desbalance | Estudiantes: sin balanceo vs. **SMOTENC** dentro de cada *fold*. Obesidad: no se remuestrea. |
 | 7 | Selección de variables | **L1 (Lasso logístico)** con `SelectFromModel` dentro del `Pipeline`, comparado contra todas las variables. |
 | 8 | Validación | Test de reserva 80/20 estratificado, fijo y usado una vez. Optuna con CV de 5 *folds*; comparativa con CV 5×3. En obesidad, **partición agrupada** para que filas idénticas no queden a ambos lados. Sin *nested CV*. |
-| 9 | Optuna | TPE, semilla 42; 50 *trials* en KNN y 100 en MLP (cabe en Colab: ~4 s por evaluación). `GridSearchCV` vs. Optuna en KNN. NSGA-II como extra. |
+| 9 | Optuna | TPE, semilla 42; 50 *trials* en KNN y 100 en MLP (cabe en Colab: ~4 s por evaluación). `GridSearchCV` vs. Optuna en KNN. |
 | 10 | Métricas | Principal: **macro-F1** en ambos. Obesidad: **kappa ponderado cuadrático** como segunda métrica obligatoria. |
 | 11 | Interpretación | Importancia por permutación, matriz de confusión, curva de aprendizaje y Wilcoxon (con su limitación declarada). |
 | 12 | Git | **Todo en `main`**, *commits* pequeños, un responsable por archivo; resultados versionados por la misma corrida que genera el notebook. |
@@ -30,7 +30,7 @@
 2. Tras redondear y sin Height/Weight, **el 96% de las filas de Obesity_Type_III son copias exactas** de otras. Por eso la partición es agrupada.
 3. Una prueba preliminar (modelos sin ajustar, solo para dimensionar) mostró que los decimales y las copias inflan el macro-F1 de KNN en E2 en **unos 12 puntos** (0.723 frente a 0.600). Eso se convierte en un resultado del reporte.
 
-**Aprobado el 22/11:** Git en `main` (12), XGBoost en obesidad como extra (2), reparto de la sección 13 y resto del diseño.
+**Aprobado el 22/11:** Git en `main` (12), reparto de la sección 13 y resto del diseño. Extras descartados por decisión del equipo (§14).
 
 ---
 
@@ -279,7 +279,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 
 **Alcance mínimo garantizado:** 2 escenarios × 2 datasets; Dummy + 1 método de los autores; KNN y MLP con Optuna; `GridSearchCV` vs. Optuna en KNN; balanceo en estudiantes; selección L1; CV 5×3; test final; matriz de confusión; importancia por permutación; curva de aprendizaje; Wilcoxon; sensibilidad del protocolo en obesidad.
 
-**Extras, en orden de prioridad (se recortan desde abajo):**
+**Extras: descartados por decisión del equipo (22/11).** El alcance mínimo quedó cumplido y el equipo decidió no agregar temas nuevos, para que el trabajo se mantenga dentro de lo visto en el curso y cualquier integrante pueda explicarlo. Lista original, solo como referencia:
 1. XGBoost en obesidad.
 2. NSGA-II en el MLP.
 3. XGBoost como segunda referencia en estudiantes.
@@ -294,13 +294,13 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 ### 15.1 Contra la consigna
 | Requisito | Dónde se cumple |
 |---|---|
-| ≥ 2 métodos no usados por los autores, justificados | §2.1 (KNN y MLP en ambos; XGBoost opcional en obesidad) |
+| ≥ 2 métodos no usados por los autores, justificados | §2.1 (KNN y MLP en ambos) |
 | Valores faltantes | §0 y notebooks 01/03, sección 2 |
 | Selección de *features* | §6 |
 | Ajuste de hiperparámetros | §8 y §2.2 (`GridSearchCV` en las referencias) |
 | Otros métodos del curso | Pipeline/ColumnTransformer, *one-hot*/ordinal, escalado, SMOTE→SMOTENC, Lasso, `GridSearchCV`, k-fold, IQR/Isolation Forest, matriz de confusión, ROC-AUC, árbol y RF, curvas de sesgo y varianza |
 | Comparativa final | §10 |
-| Estrategia (a) y (b) | §8: Optuna en KNN (a) y en el MLP (b); NSGA-II genético como extra |
+| Estrategia (a) y (b) | §8: Optuna en KNN (a) y en el MLP (b) |
 | Código con autoría e interpretación | §11 y §12; celdas *Qué hacemos / Por qué / Qué observamos* |
 
 ### 15.2 Contra la matriz de cobertura (§10.1 del análisis)
@@ -313,18 +313,17 @@ Las 15 filas quedan cubiertas. Cambios respecto de la matriz: SMOTE → **SMOTEN
 | Obesidad: 77% sintético | Redondeo, partición agrupada, evaluación en filas reales y declaración en Discusión |
 | Obesidad: duplicados | Se eliminan 24 antes de dividir |
 | Obesidad: ordinales con decimales | Redondeo a la escala de la encuesta |
-| Obesidad: artefacto de género | Confirmado en el EDA; revisado en la importancia por permutación; ética; extra de sensibilidad |
+| Obesidad: artefacto de género | Confirmado en el EDA; revisado en la importancia por permutación (Gender, 2.ª variable); ética |
 | Obesidad: menores de edad | Se conservan (113 filas) y se discute en ética la validez del IMC adulto |
 | Estudiantes: nominales como enteros | *One-hot* con agrupación de niveles raros |
 | Estudiantes: fuga temporal | Escenarios E1/E2; E1 principal |
 | Estudiantes: Enrolled difícil | macro-F1 y F1 por clase |
 | Estudiantes: macroeconómicas como cohorte | Confirmado (10 combinaciones); revisado en la interpretación |
 | Estudiantes: desbalance | SMOTENC dentro del *fold* vs. sin balanceo |
-| Estudiantes: momento de Debtor/Tuition (nuevo) | Limitación declarada; extra de sensibilidad |
+| Estudiantes: momento de Debtor/Tuition (nuevo) | Limitación declarada en la Discusión (Tuition fees, 2.ª variable más importante) |
 
 ## Referencias nuevas que introduce este diseño (para verificar en la Fase 4)
 - Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. *Journal of Artificial Intelligence Research, 16*, 321–357. (Incluye SMOTE-NC).
-- Deb, K., Pratap, A., Agarwal, S., & Meyarivan, T. (2002). A fast and elitist multiobjective genetic algorithm: NSGA-II. *IEEE Transactions on Evolutionary Computation, 6*(2), 182–197. [VERIFICAR]
 - Bergstra, J., Bardenet, R., Bengio, Y., & Kégl, B. (2011). Algorithms for hyper-parameter optimization. *Advances in Neural Information Processing Systems, 24*. (TPE) [VERIFICAR]
 - Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research, 12*, 2825–2830. [VERIFICAR]
 - Cohen, J. (1968). Weighted kappa. *Psychological Bulletin, 70*(4), 213–220. [VERIFICAR]

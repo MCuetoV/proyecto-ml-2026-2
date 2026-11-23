@@ -3,7 +3,7 @@
 **Fecha:** 17/11/2026 · **Actualizado:** 22/11/2026 (Fase 0: métodos de Martins et al. confirmados; trabajos previos del grupo de obesidad; secciones 2, 10.2, 11 y Fuentes)
 **Curso:** Machine Learning (650064) — ULima, 2026-2
 **Entrega:** viernes 27/11/2026
-**Estado:** Fases 0 y 1 cerradas; Fase 2 lista, pendiente de la prueba en el Mac de Marcelo y en Colab (22/11). Las decisiones de diseño están en `diseno_experimental.md` (v1.3, aprobado).
+**Estado:** Fases 0 a 3 cerradas (22/11); pendiente la prueba en Colab. Siguiente: Fase 4, redacción del reporte. Las decisiones de diseño están en `diseno_experimental.md` (v1.4, aprobado).
 
 ---
 
@@ -358,8 +358,9 @@ pandas, numpy, scikit-learn, imbalanced-learn, PyTorch, XGBoost, statsmodels, sc
 | 22/11 | Obesidad: el test pasa a ser la partición agrupada con la distribución de clases más parecida a la del total, porque la primera partición dejaba toda Obesity_Type_III del test como un único vector repetido 75 veces (diseño v1.4). |
 | 22/11 | Target codificado como enteros (`codificar_objetivo`) por un error de `MLPClassifier` en scikit-learn 1.6.1 con *early stopping* y clases de texto; en obesidad, en orden de severidad. `learning_curve` con barajado, porque el CSV de obesidad viene ordenado por clase. |
 | 22/11 | Las observaciones (*Qué observamos*) de los notebooks de modelado se redactan a partir de la corrida oficial en el Mac de Marcelo, porque el MLP puede variar en los decimales entre plataformas. |
+| 22/11 | Corrida oficial de los cuatro notebooks en el Mac de Marcelo, sin errores; exploración idéntica a la ejecución de prueba. **Se descartan todos los extras** (XGBoost, NSGA-II, sensibilidades adicionales, *nested CV*, SHAP): no se agregan temas nuevos y el trabajo se mantiene dentro del curso. Las limitaciones que esos extras habrían explorado (momento de registro de Debtor y Tuition fees, artefacto de Gender) se tratan en la Discusión. **Fase 3 cerrada.** |
 
-**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11); verificación en fuentes de los métodos usados por los autores de ambos datasets y revisión del estado del repositorio (Fase 0, 22/11); verificación de los CSV oficiales, prueba preliminar de costo y de protocolo, y redacción del documento de diseño experimental, aprobado por el equipo (Fase 1, 22/11); verificación de las versiones de Colab, redacción de `utilidades.py`, de las plantillas de notebook, del README y de la guía, y prueba de ejecución de las plantillas (Fase 2, 22/11). Todo con Claude (Anthropic).
+**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11); verificación en fuentes de los métodos usados por los autores de ambos datasets y revisión del estado del repositorio (Fase 0, 22/11); verificación de los CSV oficiales, prueba preliminar de costo y de protocolo, y redacción del documento de diseño experimental, aprobado por el equipo (Fase 1, 22/11); verificación de las versiones de Colab, redacción de `utilidades.py`, de las plantillas de notebook, del README y de la guía, y prueba de ejecución de las plantillas (Fase 2, 22/11); redacción del código de los cuatro notebooks, verificación de las cifras de la corrida oficial y redacción de las celdas *Qué observamos* a partir de ellas (Fase 3, 22/11). Todo con Claude (Anthropic).
 
 ---
 
