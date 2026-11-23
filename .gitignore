@@ -221,3 +221,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Proyecto ML 2026-2
+.DS_Store
+~$*.docx
+*.tmp
