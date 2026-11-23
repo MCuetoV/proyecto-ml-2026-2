@@ -30,6 +30,7 @@ CARPETA_FIGURAS = os.path.join("resultados", "figuras")
 
 # Estudiantes (UCI 697)
 OBJETIVO_ESTUDIANTES = "Target"
+CLASES_ESTUDIANTES = ["Dropout", "Enrolled", "Graduate"]   # códigos 0, 1 y 2
 COLUMNAS_ESTUDIANTES = [   # las 36 variables de entrada, en el orden del CSV
     'Marital status', 'Application mode', 'Application order', 'Course',
     'Daytime/evening attendance', 'Previous qualification', 'Previous qualification (grade)',
@@ -55,7 +56,7 @@ BINARIAS_ESTUDIANTES = [
 
 # Obesidad (UCI 544)
 OBJETIVO_OBESIDAD = "NObeyesdad"
-ORDEN_OBESIDAD = [               # orden de menor a mayor severidad (para el kappa ponderado)
+ORDEN_OBESIDAD = [               # orden de menor a mayor severidad: códigos 0 a 6 (para el kappa ponderado)
     "Insufficient_Weight", "Normal_Weight", "Overweight_Level_I", "Overweight_Level_II",
     "Obesity_Type_I", "Obesity_Type_II", "Obesity_Type_III",
 ]
@@ -134,6 +135,22 @@ def columnas_por_escenario(dataset, escenario):
     return list(COLUMNAS_OBESIDAD)
 
 
+def codificar_objetivo(y, dataset):
+    """Convierte las clases del target (texto) en enteros 0, 1, 2...
+
+    Estudiantes: Dropout = 0, Enrolled = 1, Graduate = 2. Obesidad: 0 a 6 en
+    orden de severidad (ORDEN_OBESIDAD), así el kappa ponderado usa el orden real.
+    Es necesario porque MLPClassifier de scikit-learn 1.6.1 falla con
+    early_stopping=True cuando las clases son texto.
+
+    Ejemplo:
+        y_train = utilidades.codificar_objetivo(train[utilidades.OBJETIVO_OBESIDAD], "obesidad")
+    """
+    # Autor: Marcelo Cueto
+    clases = CLASES_ESTUDIANTES if dataset == "estudiantes" else ORDEN_OBESIDAD
+    return y.map({clase: posicion for posicion, clase in enumerate(clases)})
+
+
 def particiones_agrupadas(y, grupos, semilla):
     """Devuelve 5 particiones (train, validación) estratificadas y agrupadas (diseño, sección 7).
 
@@ -155,7 +172,9 @@ def dividir_train_test(datos, dataset):
     """Separa el test de reserva (20%) una sola vez y con la semilla fija (diseño, sección 7).
 
     Estudiantes: partición estratificada. Obesidad: estratificada y agrupada,
-    para que las filas idénticas queden del mismo lado.
+    para que las filas idénticas queden del mismo lado. De las 5 particiones
+    agrupadas, el test es la que tiene la distribución de clases más parecida
+    a la del total (criterio estructural: no mira ningún modelo).
 
     Ejemplo:
         train, test = utilidades.dividir_train_test(datos, "obesidad")
@@ -164,7 +183,11 @@ def dividir_train_test(datos, dataset):
     if dataset == "estudiantes":
         y = datos[OBJETIVO_ESTUDIANTES]
         return train_test_split(datos, test_size=0.2, stratify=y, random_state=SEMILLA)
-    indices_train, indices_test = particiones_agrupadas(datos[OBJETIVO_OBESIDAD], datos["grupo"], SEMILLA)[0]
+    y = datos[OBJETIVO_OBESIDAD]
+    particiones = particiones_agrupadas(y, datos["grupo"], SEMILLA)
+    total = y.value_counts(normalize=True)
+    desviaciones = [(y.iloc[test].value_counts(normalize=True) - total).abs().max() for _, test in particiones]
+    indices_train, indices_test = particiones[int(np.argmin(desviaciones))]
     return datos.iloc[indices_train], datos.iloc[indices_test]
 
 
@@ -200,7 +223,8 @@ def evaluar_cv(modelo, X, y, grupos=None, repeticiones=1, semilla=SEMILLA):
 
     - Optuna: repeticiones=1, semilla=SEMILLA (5 valores).
     - Comparativa: repeticiones=3, semilla=SEMILLA_COMPARATIVA (15 valores).
-    Si se pasan grupos (obesidad), la CV es además agrupada.
+    Si se pasan grupos (obesidad), la CV es además agrupada. Los 5 folds se
+    evalúan en paralelo (n_jobs=-1); el resultado es el mismo que en serie.
 
     Ejemplo:
         puntajes = utilidades.evaluar_cv(pipeline, X_train, y_train, grupos=train["grupo"])
@@ -213,7 +237,7 @@ def evaluar_cv(modelo, X, y, grupos=None, repeticiones=1, semilla=SEMILLA):
             cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=semilla + repeticion)
         else:
             cv = particiones_agrupadas(y, grupos, semilla + repeticion)
-        puntajes.extend(cross_val_score(modelo, X, y, cv=cv, scoring="f1_macro"))
+        puntajes.extend(cross_val_score(modelo, X, y, cv=cv, scoring="f1_macro", n_jobs=-1))
     return np.array(puntajes)
 
 
@@ -221,7 +245,8 @@ def metricas_test(modelo, X_test, y_test, dataset):
     """Calcula las métricas del diseño (sección 9) para un modelo ya entrenado.
 
     Incluye las del curso (accuracy, precision, recall), macro-F1, balanced
-    accuracy y ROC-AUC OvR. En obesidad agrega el kappa ponderado cuadrático.
+    accuracy y ROC-AUC OvR. En obesidad agrega el kappa ponderado cuadrático;
+    para eso y_test debe venir de codificar_objetivo (códigos en orden de severidad).
 
     Ejemplo:
         metricas = utilidades.metricas_test(modelo_final, X_test, y_test, "obesidad")
@@ -237,9 +262,7 @@ def metricas_test(modelo, X_test, y_test, dataset):
         "roc_auc_ovr": roc_auc_score(y_test, modelo.predict_proba(X_test), multi_class="ovr"),
     }
     if dataset == "obesidad":
-        posicion = {clase: i for i, clase in enumerate(ORDEN_OBESIDAD)}   # clase -> número de orden
-        metricas["kappa_cuadratico"] = cohen_kappa_score(
-            pd.Series(y_test).map(posicion), pd.Series(y_pred).map(posicion), weights="quadratic")
+        metricas["kappa_cuadratico"] = cohen_kappa_score(y_test, y_pred, weights="quadratic")
     return metricas
 
 
