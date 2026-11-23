@@ -66,6 +66,26 @@ estudiantes,E2,MLP,final,precision_macro,0.7069673265716432,,test
 estudiantes,E2,MLP,final,recall_macro,0.6826420879546514,,test
 estudiantes,E2,MLP,final,f1_macro,0.6894366120233667,,test
 estudiantes,E2,MLP,final,roc_auc_ovr,0.8809764149574638,,test
+estudiantes,E1,KNN,seleccion L1: C=0.01,f1_macro,0.4998477118820412,0.0106740198498153,CV
+estudiantes,E1,KNN,seleccion L1: C=0.01,columnas_conservadas,7.533333333333333,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.05,f1_macro,0.5076213306812616,0.0192529327881376,CV
+estudiantes,E1,KNN,seleccion L1: C=0.05,columnas_conservadas,43.0,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.1,f1_macro,0.4978451656141427,0.0134291592955166,CV
+estudiantes,E1,KNN,seleccion L1: C=0.1,columnas_conservadas,65.93333333333334,,CV
+estudiantes,E1,KNN,seleccion L1: C=0.5,f1_macro,0.4925573703603531,0.0137877727735113,CV
+estudiantes,E1,KNN,seleccion L1: C=0.5,columnas_conservadas,85.66666666666667,,CV
+estudiantes,E1,KNN,seleccion L1: C=1,f1_macro,0.4923589573626194,0.0128791954800112,CV
+estudiantes,E1,KNN,seleccion L1: C=1,columnas_conservadas,88.46666666666667,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.01,f1_macro,0.4406447115793964,0.010539691532924,CV
+estudiantes,E1,MLP,seleccion L1: C=0.01,columnas_conservadas,6.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.05,f1_macro,0.514098076139449,0.0259323686218659,CV
+estudiantes,E1,MLP,seleccion L1: C=0.05,columnas_conservadas,20.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.1,f1_macro,0.5443763622489802,0.0154476090762984,CV
+estudiantes,E1,MLP,seleccion L1: C=0.1,columnas_conservadas,41.666666666666664,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,f1_macro,0.5491476021352301,0.0224440609546468,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,columnas_conservadas,83.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=1,f1_macro,0.5458947634729991,0.0293885464157141,CV
+estudiantes,E1,MLP,seleccion L1: C=1,columnas_conservadas,88.13333333333334,,CV
 obesidad,E1,Dummy,"{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",f1_macro,0.0410327160915262,0.0010531141444638,CV
 obesidad,E2,Dummy,"{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",f1_macro,0.0410327160915262,0.0010531141444638,CV
 obesidad,E1,Árbol (autores),"{'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'entropy', 'max_depth': None, 'max_features': None, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'random_state': 42, 'splitter': 'best'}",f1_macro,0.9377880919567848,0.0124432600179787,CV
@@ -134,3 +154,23 @@ obesidad,E2,MLP,final,recall_macro,0.7060541372996998,,test
 obesidad,E2,MLP,final,f1_macro,0.7078690099907491,,test
 obesidad,E2,MLP,final,roc_auc_ovr,0.92266081537551,,test
 obesidad,E2,MLP,final,kappa_cuadratico,0.8489705371381734,,test
+obesidad,E2,KNN,seleccion L1: C=0.01,f1_macro,0.3982936257040065,0.0526235012153377,CV
+obesidad,E2,KNN,seleccion L1: C=0.01,columnas_conservadas,5.0,,CV
+obesidad,E2,KNN,seleccion L1: C=0.05,f1_macro,0.6630050757069095,0.0197875971909143,CV
+obesidad,E2,KNN,seleccion L1: C=0.05,columnas_conservadas,12.0,,CV
+obesidad,E2,KNN,seleccion L1: C=0.1,f1_macro,0.6623737372963878,0.0206392248363745,CV
+obesidad,E2,KNN,seleccion L1: C=0.1,columnas_conservadas,14.133333333333333,,CV
+obesidad,E2,KNN,seleccion L1: C=0.5,f1_macro,0.6584846844260863,0.0224862845925156,CV
+obesidad,E2,KNN,seleccion L1: C=0.5,columnas_conservadas,16.4,,CV
+obesidad,E2,KNN,seleccion L1: C=1,f1_macro,0.6582831540933596,0.022328573551163,CV
+obesidad,E2,KNN,seleccion L1: C=1,columnas_conservadas,17.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.01,f1_macro,0.469528457941536,0.0424832329047703,CV
+obesidad,E2,MLP,seleccion L1: C=0.01,columnas_conservadas,5.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.05,f1_macro,0.6947781974209044,0.0276976046682839,CV
+obesidad,E2,MLP,seleccion L1: C=0.05,columnas_conservadas,12.0,,CV
+obesidad,E2,MLP,seleccion L1: C=0.1,f1_macro,0.6903043079447861,0.0255507241388011,CV
+obesidad,E2,MLP,seleccion L1: C=0.1,columnas_conservadas,14.133333333333333,,CV
+obesidad,E2,MLP,seleccion L1: C=0.5,f1_macro,0.7067345826741352,0.0319879400825188,CV
+obesidad,E2,MLP,seleccion L1: C=0.5,columnas_conservadas,16.4,,CV
+obesidad,E2,MLP,seleccion L1: C=1,f1_macro,0.7010155150582321,0.0322878093699399,CV
+obesidad,E2,MLP,seleccion L1: C=1,columnas_conservadas,17.0,,CV
