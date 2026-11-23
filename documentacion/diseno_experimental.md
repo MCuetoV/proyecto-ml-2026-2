@@ -1,9 +1,9 @@
 # Documento de diseño experimental
 
 **Proyecto:** Machine Learning (650064), ULima 2026-2 · **Entrega:** viernes 27/11/2026
-**Versión:** 1.4 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3; 1.4 fija el criterio del test de obesidad y agrega `codificar_objetivo`) · **Fecha:** 22/11/2026
+**Versión:** 1.5 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3; 1.4 fija el criterio del test de obesidad y agrega `codificar_objetivo`; 1.5 agrega el barrido de `C` del selector L1 como análisis de sensibilidad (§6) y quita las menciones residuales a los extras descartados) · **Fecha:** 22/11/2026
 **Base:** `enunciado_proyecto_ML.md`, `2026-11-17_analisis-consigna-proyecto-ML.md` (secciones 2, 9, 10 y 11) y verificación directa de los CSV oficiales de UCI.
-**Estado:** aprobado por Marcelo el 22/11/2026 e implementado (Fase 3 cerrada). Decisiones: Git todo en `main`; reparto de la sección 13; **extras descartados** (§14).
+**Estado:** aprobado por Marcelo el 22/11/2026 e implementado (Fase 3 cerrada). Decisiones: Git todo en `main`; reparto de la sección 13; **extras descartados** (§14); barrido de `C` del selector L1 aprobado el 22/11 (v1.5).
 
 ---
 
@@ -17,7 +17,7 @@
 | 4 | MLP | `MLPClassifier` de scikit-learn con *early stopping*. |
 | 5 | Preprocesamiento | Estudiantes: *one-hot* con agrupación de niveles raros. Obesidad: eliminar 24 duplicados exactos y **redondear a la precisión de la encuesta** (borra la huella de SMOTE). Escalado estándar. Todo dentro del `Pipeline`. |
 | 6 | Desbalance | Estudiantes: sin balanceo vs. **SMOTENC** dentro de cada *fold*. Obesidad: no se remuestrea. |
-| 7 | Selección de variables | **L1 (Lasso logístico)** con `SelectFromModel` dentro del `Pipeline`, comparado contra todas las variables. |
+| 7 | Selección de variables | **L1 (Lasso logístico)** con `SelectFromModel` dentro del `Pipeline`, comparado contra todas las variables, más un **barrido de `C`** como análisis de sensibilidad (v1.5). |
 | 8 | Validación | Test de reserva 80/20 estratificado, fijo y usado una vez. Optuna con CV de 5 *folds*; comparativa con CV 5×3. En obesidad, **partición agrupada** para que filas idénticas no queden a ambos lados. Sin *nested CV*. |
 | 9 | Optuna | TPE, semilla 42; 50 *trials* en KNN y 100 en MLP (cabe en Colab: ~4 s por evaluación). `GridSearchCV` vs. Optuna en KNN. |
 | 10 | Métricas | Principal: **macro-F1** en ambos. Obesidad: **kappa ponderado cuadrático** como segunda métrica obligatoria. |
@@ -44,7 +44,7 @@ Archivos en `datos/` sin modificar: `data.csv` (MD5 `ee29c9ee…`) y `ObesityDat
 - Las 3 variables macroeconómicas forman **solo 10 combinaciones**: confirman que funcionan como cohorte (años 2008/09 a 2018/19).
 - Variables nominales con muchos niveles raros (< 1% de filas): Nacionality 20 de 21, Father's occupation 34 de 46, Father's qualification 27 de 34, Mother's qualification 21 de 29, Mother's occupation 22 de 32, Previous qualification 12 de 17, Application mode 9 de 18.
 - 180 estudiantes no inscribieron unidades en el 1.º semestre (77 Dropout, 75 Graduate, 28 Enrolled): los ceros son legítimos.
-- Realinho et al. (2022) clasifican Debtor y Tuition fees up to date como socioeconómicas, pero **no dicen cuándo se midieron**. Si se registraron después de la matrícula, serían fuga en E1. Se declara como limitación (ver extras).
+- Realinho et al. (2022) clasifican Debtor y Tuition fees up to date como socioeconómicas, pero **no dicen cuándo se midieron**. Si se registraron después de la matrícula, serían fuga en E1. Se declara como limitación en la Discusión.
 
 ### Obesidad
 - 2111 × 17, sin nulos, **24 filas duplicadas** (33 filas involucradas, todas con apariencia real).
@@ -84,15 +84,14 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 |---|---|---|---|---|
 | **KNN** | ✅ limpio | ✅ limpio | Modelo basado en distancias, que contrasta con los árboles, los lineales y el *boosting* de los autores. Es sensible a la codificación y al escalado, que son temas del curso y trampas de estos datos. Es el único método del curso que nadie usó en ningún caso | Curso (imputador y modelo de prueba); como clasificador principal es una extensión menor |
 | **MLP** | ✅ limpio | ✅ defendible (declarar Molina et al., 2021) | Datos tabulares → MLP (PPT de tipos de redes). Capta interacciones no lineales entre hábitos sin especificarlas. Su ajuste con Optuna cumple la estrategia (b) | Curso (redes neuronales) |
-| XGBoost (opcional) | ❌ usado por los autores | ✅ limpio en ambos grupos de autores | Asegura dos métodos nuevos sin objeción posible en obesidad | Curso (notebooks de balanceo); teoría de *boosting* pendiente |
 
 - **Descartados:** SVM y RF en obesidad (Molina et al. los usaron); AdaBoost en estudiantes (frontera por LogitBoost) y en obesidad mientras no se dicte; LDA/QDA y regresión ordinal (no vistos en el curso).
-- **Recomendación:** MLP + KNN como alcance mínimo; XGBoost en obesidad como primer extra. Si el 23/11 se dicta AdaBoost, puede reemplazar a XGBoost en obesidad.
+- **Elección:** MLP + KNN en ambos datasets. XGBoost, que figuraba como tercer método opcional en obesidad, se descartó el 22/11 junto con los demás extras (§14).
 
 ### 2.2 Modelos de referencia (mismas particiones, mismo preprocesamiento, mismas métricas)
 - `DummyClassifier(strategy="most_frequent")`: el piso.
 - **Obesidad:** `DecisionTreeClassifier(criterion="entropy")` como aproximación a J48. Se declara que CART no es C4.5: CART hace cortes binarios y otra poda, y C4.5 usa *gain ratio* y cortes múltiples en categóricas. Se ajusta con `GridSearchCV` (`max_depth` ∈ {3, 5, 8, 12, None}; `min_samples_leaf` ∈ {1, 5, 10}).
-- **Estudiantes:** `RandomForestClassifier` con el mismo sobremuestreo que los modelos nuevos y `GridSearchCV` (`n_estimators` ∈ {200, 500}; `max_depth` ∈ {None, 10, 20}; `max_features` ∈ {"sqrt", 0.5}). Es el método de referencia que los mismos autores eligieron en su trabajo de 2023 y está en el curso. Extra: XGBoost, su mejor modelo en 2021.
+- **Estudiantes:** `RandomForestClassifier` con el mismo sobremuestreo que los modelos nuevos y `GridSearchCV` (`n_estimators` ∈ {200, 500}; `max_depth` ∈ {None, 10, 20}; `max_features` ∈ {"sqrt", 0.5}). Es el método de referencia que los mismos autores eligieron en su trabajo de 2023 y está en el curso.
 
 ## 3. Implementación del MLP
 
@@ -140,11 +139,19 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 
 ## 6. Selección de variables
 
-- **Método principal:** `SelectFromModel(LogisticRegression(penalty="l1", solver="saga", C=1.0))`, es decir, Lasso para clasificación, visto en clase. Va después del preprocesamiento y antes del modelo, **dentro del `Pipeline`**, así que se aprende en cada *fold*.
+- **Método principal:** `SelectFromModel(LogisticRegression(penalty="l1", solver="saga", C=1.0, max_iter=5000))`, es decir, Lasso para clasificación, visto en clase. Va después del preprocesamiento y antes del modelo, **dentro del `Pipeline`**, así que se aprende en cada *fold*.
 - **Comparación:** la mejor configuración de KNN y de MLP, con y sin selector, en el escenario principal, con CV 5×3. Se reporta el número de variables retenidas.
 - **Diagnóstico complementario:** la importancia por permutación (sección 10) muestra qué variables originales pesan, sin decidir nada sobre ellas.
-- **Descartados como paso del `Pipeline`:** Boruta, porque reentrena muchos RF en cada *fold* (costoso), y chi², que exige valores no negativos y choca con el escalado. Extra: RF con `SelectFromModel` como segundo selector.
+- **Descartados como paso del `Pipeline`:** Boruta, porque reentrena muchos RF en cada *fold* (costoso), y chi², que exige valores no negativos y choca con el escalado.
 - **Riesgo:** en obesidad E2 hay pocas variables y la selección puede no ayudar. Ese también es un resultado válido.
+- **Barrido de `C` (v1.5, decisión del 22/11).** Con `C = 1` el selector casi no elimina columnas (ajustado con todo el train: 90 de 94 en estudiantes E1 y 17 de 17 en obesidad E2), así que la selección quedaba cumplida solo de nombre. Se agrega un análisis de sensibilidad en la sección 7.1 de los notebooks 02 y 04:
+  - `C` ∈ {0.01, 0.05, 0.1, 0.5, 1}, con `C` = 1/λ (visto en clase con la regresión logística): cuanto menor es `C`, más coeficientes lleva Lasso a cero. El extremo inferior se fijó con una prueba previa que solo contó columnas: con `C` < 0.01 algunos *folds* se quedan sin columnas.
+  - Misma configuración de KNN y MLP que la comparación anterior, escenario principal y los mismos 15 *folds* de la comparativa (CV 5×3, semilla 43).
+  - Se reportan el macro-F1 (media ± desviación) y las columnas conservadas por *fold* (media, mínimo y máximo), contadas dentro de cada *fold* con `cross_validate(..., return_estimator=True)`, nunca ajustando el selector fuera de la CV. Con `C = 1` el resultado debe repetir la comparación anterior; el notebook imprime la diferencia como control.
+  - **Criterio fijado antes de ver resultados:** el rendimiento se mantiene si el macro-F1 medio queda a menos de una desviación entre *folds* del valor con `C = 1`. Si se cumple con menos columnas, se reporta como evidencia de que se puede seleccionar sin pérdida; si no, queda justificado conservar las variables.
+  - **No cambia los modelos finales, la comparativa ni el test.** `C = 1` se fijó en el diseño antes de ver resultados; cambiarlo ahora obligaría a recalcular todo y podría leerse como un ajuste a posteriori.
+  - Nota técnica: `saga` es estocástico y el selector no fija `random_state`; en una prueba repetida, el macro-F1 varió solo en el cuarto decimal.
+  - Salidas: `tabla_08_seleccion_c_{…}.csv` y `figura_08_seleccion_c_{…}.png` (§11.2), más filas en el registro largo.
 
 ## 7. Protocolo de validación
 
@@ -160,7 +167,7 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 6. **Sensibilidad del protocolo (obesidad, E2):**
    - (a) protocolo ingenuo: sin redondear y con partición estratificada, contra el protocolo elegido;
    - (b) métricas del test restringidas a las filas `probablemente_real`, con su conteo por clase. Hay muy pocas reales en Obesity II y III, así que se presenta como descriptivo.
-- ***Nested CV*: descartado.** El test de reserva ya da una estimación sin sesgo del modelo final. El sesgo de seleccionar con la misma CV se reduce usando otra semilla en la comparativa y se declara como limitación. Su costo cabría (unos 20 min por escenario), así que queda como extra para estudiantes E1 si sobra tiempo.
+- ***Nested CV*: descartado.** El test de reserva ya da una estimación sin sesgo del modelo final. El sesgo de seleccionar con la misma CV se reduce usando otra semilla en la comparativa y se declara como limitación.
 
 ## 8. Ajuste de hiperparámetros con Optuna
 
@@ -171,11 +178,9 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 |---|---|
 | KNN | `n_neighbors` 1–50; `weights` {uniform, distance}; `p` {1 Manhattan, 2 Euclídea}; balanceo {no, SMOTENC} en estudiantes |
 | MLP | capas {1, 2, 3}; neuronas por capa 16–256 (escala log); `activation` {relu, tanh}; `solver` {adam, sgd con momentum 0.9}; `alpha` 1e-6–1e-1 (log); `learning_rate_init` 1e-4–1e-1 (log); `batch_size` {32, 64, 128, 256}; balanceo {no, SMOTENC} en estudiantes |
-| XGBoost (extra) | `n_estimators` 100–600; `max_depth` 2–8; `learning_rate` 0.01–0.3 (log); `subsample` 0.6–1.0 |
 
 - **Comparación con `GridSearchCV` (visto en clase), en KNN y en el escenario principal:** malla completa (50 × 2 × 2 = 200 combinaciones) contra 50 *trials* de Optuna. Se comparan el mejor macro-F1, el número de evaluaciones y el tiempo. Para el MLP, una malla mínima del espacio tendría unas 3000 combinaciones (más de 3 h con el costo medido): ese número se reporta como argumento de por qué se necesita una búsqueda eficiente.
-- **Cumplimiento:** estrategia (a) = Optuna en KNN (y en XGBoost); estrategia (b) = Optuna en el MLP.
-- **Extra genético:** `NSGAIISampler` (Deb et al., 2002), un algoritmo genético multiobjetivo, aplicado al MLP con dos objetivos: maximizar el macro-F1 y minimizar el número de parámetros de la red. Produce un frente de Pareto (una figura). Cubre explícitamente los "algoritmos genéticos" de la consigna.
+- **Cumplimiento:** estrategia (a) = Optuna en KNN; estrategia (b) = Optuna en el MLP.
 - **Riesgo:** los *trials* del MLP con 3 capas de 256 neuronas y lote 32 son los más lentos. Si una evaluación supera 20 s, se acota el espacio y se registra.
 
 ## 9. Métricas
@@ -192,13 +197,13 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 ## 10. Comparativa e interpretación
 
 - **Tabla comparativa por escenario:** media ± desviación (CV 5×3) de cada modelo, más el resultado en el test.
-- **Prueba estadística:** Wilcoxon de rangos con signo entre el mejor modelo nuevo y la referencia de los autores, sobre los 15 *folds* pareados. Limitación declarada: los *folds* de una CV repetida no son independientes, así que el valor *p* es orientativo. Friedman queda como extra.
+- **Prueba estadística:** Wilcoxon de rangos con signo entre el mejor modelo nuevo y la referencia de los autores, sobre los 15 *folds* pareados. Limitación declarada: los *folds* de una CV repetida no son independientes, así que el valor *p* es orientativo.
 - **Interpretación del mejor modelo en el escenario principal:**
   - matriz de confusión en el test;
   - **importancia por permutación** sobre el test y por variable original, permutando la columna antes del `Pipeline` (Realinho et al. usaron la misma técnica, lo que permite contrastar);
   - **curva de aprendizaje** (`learning_curve`) para hablar de sesgo y varianza.
 - **Puntos que la interpretación debe revisar explícitamente:** el peso de Gender en obesidad E2 (artefacto) y el de las variables macroeconómicas en estudiantes (cohorte).
-- **Descartado:** SHAP como herramienta principal, porque con KNN y MLP exige `KernelExplainer`, que es lento. Queda como extra.
+- **Descartado:** SHAP, porque con KNN y MLP exige `KernelExplainer`, que es lento, y no agrega un tema del curso (§14).
 
 ## 11. Notebooks, tablas y figuras
 
@@ -206,7 +211,7 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 
 **01 y 03 (exploración):** 0. Configuración y autores · 1. Carga y descripción del dataset · 2. Valores faltantes y duplicados · 3. Partición train/test (función común) · 4. Análisis univariante y del target (train) · 5. Análisis multivariante y trampas del dataset (train) · 6. Atípicos (diagnóstico) · 7. Decisiones de preprocesamiento que se derivan.
 
-**02 y 04 (modelado):** 0. Configuración y autores · 1. Carga, limpieza determinística, escenarios y partición · 2. `Pipeline` de preprocesamiento · 3. Modelos de referencia (Dummy y autores, con `GridSearchCV`) · 4. Optuna: KNN y MLP por escenario · 5. `GridSearchCV` vs. Optuna · 6. Balanceo (en obesidad: "no aplica", con su justificación) · 7. Selección de variables · 8. Comparativa por CV · 9. Evaluación final en el test · 10. Interpretación · 11. Registro de resultados.
+**02 y 04 (modelado):** 0. Configuración y autores · 1. Carga, limpieza determinística, escenarios y partición · 2. `Pipeline` de preprocesamiento · 3. Modelos de referencia (Dummy y autores, con `GridSearchCV`) · 4. Optuna: KNN y MLP por escenario · 5. `GridSearchCV` vs. Optuna · 6. Balanceo (en obesidad: "no aplica", con su justificación) · 7. Selección de variables (7.1: barrido de `C`) · 8. Comparativa por CV (en 04, 8.1: sensibilidad del protocolo) · 9. Evaluación final en el test · 10. Interpretación · 11. Registro de resultados.
 
 ### 11.2 Archivos que se generan
 
@@ -221,6 +226,7 @@ El número es el de la tabla o figura candidata en el reporte; el sufijo indica 
 | `tabla_05_grid_vs_optuna_{…}.csv` | 02, 04 | Calidad, evaluaciones y tiempo | **R** |
 | `tabla_06_ablaciones_{…}.csv` | 02, 04 | Balanceo y selección | **R** (fusionada con la 03 si falta espacio) |
 | `tabla_07_sensibilidad_protocolo_obesidad.csv` | 04 | Protocolo ingenuo vs. elegido; test en filas reales | **R** |
+| `tabla_08_seleccion_c_{…}.csv` | 02, 04 | Barrido de `C` del selector L1: macro-F1 y columnas conservadas por *fold* (v1.5) | **R** (fusionada con la 06 si falta espacio) |
 | `figura_01_flujo_trabajo.png` | Script aparte (no son datos) | Figura de la Metodología | **R** |
 | `figura_02_target_{…}.png` | 01, 03 | Distribución del target | **R** (combinada) |
 | `figura_03_huella_sintetica_obesidad.png` | 03 | Proporción real por clase y sexo por clase | **R** |
@@ -228,7 +234,7 @@ El número es el de la tabla o figura candidata en el reporte; el sufijo indica 
 | `figura_05_importancia_{…}.png` | 02, 04 | Importancia por permutación | **R** |
 | `figura_06_curva_aprendizaje_{…}.png` | 02, 04 | Curva de aprendizaje | Solo notebook |
 | `figura_07_optuna_historial_{…}.png` | 02, 04 | Historial de Optuna del MLP | Solo notebook |
-| `figura_08_pareto_nsga2_{…}.png` | 02, 04 | Frente de Pareto (extra) | Si hay espacio |
+| `figura_08_seleccion_c_{…}.png` | 02, 04 | Macro-F1 y columnas conservadas según `C` (v1.5; el número quedó libre al descartar NSGA-II) | Si hay espacio |
 | `resultados_{estudiantes,obesidad}.csv` | 02, 04 | Registro largo: dataset, escenario, modelo, configuración, métrica, media, desviación, partición | — |
 | `resultados_experimentos.csv` | `utilidades.consolidar_resultados()` | Une los dos anteriores | — |
 
@@ -277,7 +283,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 | **Jue 26** | Test final, interpretación, corrida oficial y consolidación | Resultados, Discusión (con ética), Conclusiones, Introducción, Aportes, IA; revisión con los tres skills |
 | **Vie 27** | Control de calidad final (Fase 5), etiqueta `v2-entrega`, acceso del profesor | Ajustes finales y envío |
 
-**Alcance mínimo garantizado:** 2 escenarios × 2 datasets; Dummy + 1 método de los autores; KNN y MLP con Optuna; `GridSearchCV` vs. Optuna en KNN; balanceo en estudiantes; selección L1; CV 5×3; test final; matriz de confusión; importancia por permutación; curva de aprendizaje; Wilcoxon; sensibilidad del protocolo en obesidad.
+**Alcance mínimo garantizado:** 2 escenarios × 2 datasets; Dummy + 1 método de los autores; KNN y MLP con Optuna; `GridSearchCV` vs. Optuna en KNN; balanceo en estudiantes; selección L1 con barrido de `C` (v1.5); CV 5×3; test final; matriz de confusión; importancia por permutación; curva de aprendizaje; Wilcoxon; sensibilidad del protocolo en obesidad.
 
 **Extras: descartados por decisión del equipo (22/11).** El alcance mínimo quedó cumplido y el equipo decidió no agregar temas nuevos, para que el trabajo se mantenga dentro de lo visto en el curso y cualquier integrante pueda explicarlo. Lista original, solo como referencia:
 1. XGBoost en obesidad.
@@ -304,7 +310,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 | Código con autoría e interpretación | §11 y §12; celdas *Qué hacemos / Por qué / Qué observamos* |
 
 ### 15.2 Contra la matriz de cobertura (§10.1 del análisis)
-Las 15 filas quedan cubiertas. Cambios respecto de la matriz: SMOTE → **SMOTENC** (limitación observada: variables nominales); Boruta pasa a extra (costo dentro de la CV); las curvas de aprendizaje entran al mínimo; la partición agrupada en obesidad es nueva (hallazgo del 22/11).
+Las 15 filas quedan cubiertas. Cambios respecto de la matriz: SMOTE → **SMOTENC** (limitación observada: variables nominales); Boruta se descartó por su costo dentro de la CV; la selección L1 se completa con un barrido de `C` (v1.5); las curvas de aprendizaje entran al mínimo; la partición agrupada en obesidad es nueva (hallazgo del 22/11).
 
 ### 15.3 Contra las trampas documentadas
 | Trampa | Tratamiento |
