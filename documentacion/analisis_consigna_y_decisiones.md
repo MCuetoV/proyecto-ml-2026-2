@@ -3,7 +3,7 @@
 **Fecha:** 17/11/2026 · **Actualizado:** 22/11/2026 (Fase 0: métodos de Martins et al. confirmados; trabajos previos del grupo de obesidad; secciones 2, 10.2, 11 y Fuentes)
 **Curso:** Machine Learning (650064) — ULima, 2026-2
 **Entrega:** viernes 27/11/2026
-**Estado:** Fase 0 cerrada (22/11). Las decisiones de diseño se fijan en `diseno_experimental.md` (Fase 1).
+**Estado:** Fases 0 y 1 cerradas; Fase 2 lista, pendiente de la prueba en el Mac de Marcelo y en Colab (22/11). Las decisiones de diseño están en `diseno_experimental.md` (v1.3, aprobado).
 
 ---
 
@@ -317,7 +317,7 @@ pandas, numpy, scikit-learn, imbalanced-learn, PyTorch, XGBoost, statsmodels, sc
 | Hiperparámetros ajustables | Todos (dropout, AdamW, scheduler) | Capas, activación, `solver` (adam/sgd), alpha (L2), learning rate y batch |
 | Costo en tiempo | Mayor | Menor |
 
-**Recomendación preliminar:** `MLPClassifier` para el pipeline comparativo, citando en Antecedentes la teoría vista en clase. PyTorch solo si sobra tiempo o si el profesor lo valora explícitamente. **A decidir en el siguiente paso.**
+**Decisión (22/11):** `MLPClassifier` para el pipeline comparativo, citando en Antecedentes la teoría vista en clase. Ver `diseno_experimental.md`, sección 3.
 
 ---
 
@@ -347,8 +347,15 @@ pandas, numpy, scikit-learn, imbalanced-learn, PyTorch, XGBoost, statsmodels, sc
 | 22/11 | Datos del cuarto integrante: los agrega el equipo manualmente al final. Visibilidad del repositorio e invitaciones: a cargo de Marcelo. Título: se define al final. Sin material nuevo en la clase del 18/11. |
 | 22/11 | Marcelo pide trabajar el código **usando Git correctamente**; el flujo se define en el documento de diseño. |
 | 22/11 | Los CSV de UCI no se pueden descargar desde los entornos de Claude (proxy bloquea archive.ics.uci.edu): Marcelo los descarga y los coloca en `datos/`. |
+| 22/11 | CSV oficiales en `datos/` (MD5 `ee29c9ee…` y `aff636fc…`). Verificado: obesidad con 24 duplicados, ~491 filas probablemente reales, Normal_Weight 100% real y Obesity_Type_III 99% sintética, artefacto de género confirmado (Ob. II 295/297 hombres; Ob. III 323/324 mujeres), 113 menores de 18 años; estudiantes sin duplicados y con variables macroeconómicas de solo 10 combinaciones (cohorte). Detalle en la sección 0 de `diseno_experimental.md`. |
+| 22/11 | **Fase 1 cerrada: diseño experimental aprobado** (`diseno_experimental.md` v1.1). Escenario principal: obesidad sin Height/Weight y estudiantes al matricularse. Métodos nuevos: MLP + KNN en ambos; XGBoost en obesidad como primer extra. Referencias: Dummy, árbol de decisión (≈ J48) en obesidad y RF con sobremuestreo en estudiantes, con `GridSearchCV`. MLP con `MLPClassifier` de scikit-learn (resuelve la sección 10.3). |
+| 22/11 | Obesidad: eliminar duplicados, **redondear a la precisión de la encuesta** y **partición agrupada** por vectores idénticos. Motivo: la proporción sintética varía de 0% a 99% según la clase y, tras redondear, el 96% de Obesity_Type_III son copias; una prueba preliminar mostró que ignorarlo infla el macro-F1 de KNN en unos 12 puntos. |
+| 22/11 | Estudiantes: *one-hot* con agrupación de niveles < 1% y **SMOTENC** dentro de cada *fold* (extensión de SMOTE por las variables nominales), comparado con no balancear. Selección L1 dentro del `Pipeline`. Métrica principal: macro-F1 en ambos datasets; kappa ponderado cuadrático obligatorio en obesidad. Optuna TPE (KNN 50 y MLP 100 *trials*); `GridSearchCV` vs. Optuna en KNN; NSGA-II como extra. Sin *nested CV*. |
+| 22/11 | Git: **todo en `main`**, un responsable por archivo, *commits* pequeños; los archivos de `resultados/` se versionan desde la misma corrida que genera el notebook. Reparto: 01 Integrante 4, 02 Eduardo, 03 Eros, 04 Marcelo (más `utilidades.py` y coordinación). |
+| 22/11 | Los *commits* no incluyen coautorías ni menciones a herramientas de IA; el uso de IA se declara solo en la sección 9 del reporte (diseño v1.2). |
+| 22/11 | **Fase 2.** `requirements.txt` con las versiones de Colab (Python 3.13; scikit-learn 1.6.1, pandas 2.2.3, numpy 2.4.6, imbalanced-learn 0.14.2, optuna 5.1.0, xgboost 3.4.1), probadas en un entorno limpio. `utilidades.py` con las funciones de §11.3 del diseño. Partición agrupada de obesidad sin barajar y con grupos renumerados por semilla, porque barajar desequilibraba el test (Obesity_Type_III 22.7% frente a 15.5%). Cuatro plantillas de notebook con celda final que sube a `main` los resultados de la corrida oficial desde Colab con la identidad del integrante. README y guía de trabajo actualizados. |
 
-**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11); verificación en fuentes de los métodos usados por los autores de ambos datasets y revisión del estado del repositorio (Fase 0, 22/11). Todo con Claude (Anthropic).
+**Uso de IA hasta ahora (para la declaración):** análisis de la consigna y de los papers de los datasets (17/11); revisión automatizada del material del curso para el inventario y la matriz de cobertura (18/11); análisis de la plantilla y diseño de los skills de revisión de lenguaje, APA y coherencia (22/11); verificación en fuentes de los métodos usados por los autores de ambos datasets y revisión del estado del repositorio (Fase 0, 22/11); verificación de los CSV oficiales, prueba preliminar de costo y de protocolo, y redacción del documento de diseño experimental, aprobado por el equipo (Fase 1, 22/11); verificación de las versiones de Colab, redacción de `utilidades.py`, de las plantillas de notebook, del README y de la guía, y prueba de ejecución de las plantillas (Fase 2, 22/11). Todo con Claude (Anthropic).
 
 ---
 

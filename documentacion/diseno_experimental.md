@@ -1,7 +1,7 @@
 # Documento de diseño experimental
 
 **Proyecto:** Machine Learning (650064), ULima 2026-2 · **Entrega:** viernes 27/11/2026
-**Versión:** 1.2 (aprobada; 1.2 corrige la regla 9 de la sección 12) · **Fecha:** 22/11/2026
+**Versión:** 1.3 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3) · **Fecha:** 22/11/2026
 **Base:** `enunciado_proyecto_ML.md`, `2026-11-17_analisis-consigna-proyecto-ML.md` (secciones 2, 9, 10 y 11) y verificación directa de los CSV oficiales de UCI.
 **Estado:** aprobado por Marcelo el 22/11/2026. Decisiones: Git todo en `main`; XGBoost en obesidad como primer extra; reparto de la sección 13; resto del diseño sin cambios.
 
@@ -150,9 +150,10 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 
 1. **Test de reserva 20%, estratificado y con semilla 42**, creado una sola vez por una función de `utilidades.py`, para que los notebooks de exploración y de modelado usen la misma partición.
    - Obesidad: partición **estratificada y agrupada** (`StratifiedGroupKFold(5)`; el primer *fold* es el test). Las filas idénticas tras redondear quedan del mismo lado. **El mismo test sirve a E1 y E2**, así los escenarios son comparables.
+   - *Ajuste de la Fase 2:* con `shuffle=True` la estratificación falla, porque Obesity_Type_III tiene grupos de hasta 75 filas idénticas: el test quedaba con 22.7% de esa clase frente a 15.5% en el total. Sin barajar, el algoritmo reparte mucho mejor. Para obtener particiones distintas con cada semilla, los grupos se renumeran al azar antes de dividir (`utilidades.particiones_agrupadas`). Resultado verificado: test de 426 filas (20.4%), desviación máxima por clase de 2.1 puntos, ningún grupo compartido entre train y test; en la CV, desviaciones de 0.3 puntos como máximo y particiones distintas en cada repetición.
    - Estudiantes: `train_test_split(stratify=y)`.
 2. **El EDA que informa decisiones se hace solo con el train.** La tabla descriptiva global del dataset puede usar todas las filas.
-3. **Optuna:** CV de 5 *folds* sobre el train (`StratifiedKFold` o `StratifiedGroupKFold` en obesidad), con semilla 42.
+3. **Optuna:** CV de 5 *folds* sobre el train (`StratifiedKFold` o `particiones_agrupadas` en obesidad), con semilla 42.
 4. **Comparativa:** CV de 5 *folds* repetida 3 veces, con **otra semilla (43)**, para todas las configuraciones finales: 15 valores por modelo.
 5. **Test:** cada configuración final se reentrena con todo el train y se evalúa **una sola vez**. Se reportan todos los modelos, no solo el mejor, y no se cambia nada después de verlo.
 6. **Sensibilidad del protocolo (obesidad, E2):**
@@ -233,7 +234,7 @@ El número es el de la tabla o figura candidata en el reporte; el sufijo indica 
 Cada notebook escribe **su propio** archivo de resultados para que dos personas nunca editen el mismo archivo.
 
 ### 11.3 Funciones comunes de `utilidades.py` (pocas y simples)
-`SEMILLA = 42` · `cargar_estudiantes()` · `cargar_obesidad()` (incluye duplicados, marca real, redondeo y grupo) · `columnas_por_escenario(dataset, escenario)` · `dividir_train_test(...)` · `crear_preprocesador(dataset, escenario)` · `evaluar_cv(pipeline, X, y, grupos=None)` · `metricas_test(modelo, X, y, dataset)` · `registrar_resultado(...)` · `guardar_figura(fig, nombre)` · `consolidar_resultados()`. Las funciones objetivo de Optuna se quedan **en los notebooks**, para que los espacios de búsqueda se vean donde se explican.
+`SEMILLA = 42` · `cargar_estudiantes()` · `cargar_obesidad()` (incluye duplicados, marca real, redondeo y grupo) · `columnas_por_escenario(dataset, escenario)` · `particiones_agrupadas(y, grupos, semilla)` · `dividir_train_test(datos, dataset)` · `crear_preprocesador(dataset, escenario)` · `evaluar_cv(modelo, X, y, grupos=None, repeticiones=1, semilla=SEMILLA)` · `metricas_test(modelo, X, y, dataset)` · `registrar_resultado(filas, ...)` · `guardar_tabla(tabla, nombre)` · `guardar_figura(figura, nombre)` · `consolidar_resultados()`. *Fase 2:* se agregaron `particiones_agrupadas` (ajuste de §7) y `guardar_tabla` (escritura uniforme de las tablas); `registrar_resultado` acumula filas en una lista y el notebook las guarda una sola vez al final, para que volver a ejecutarlo no duplique resultados. Las funciones objetivo de Optuna se quedan **en los notebooks**, para que los espacios de búsqueda se vean donde se explican.
 
 ## 12. Flujo de trabajo con Git (aprobado: todo en `main`)
 
@@ -243,7 +244,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 1. **Un archivo, un responsable** (sección 13). Nadie edita el archivo de otro; los cambios se piden.
 2. **Antes de trabajar, siempre la última versión:** `git pull` en VS Code; en Colab, la celda 0 ya hace `git pull`, y el notebook se abre desde GitHub, nunca desde una pestaña vieja.
 3. **Commits pequeños y descriptivos:** imperativo, en español y con el ámbito delante, por ejemplo: `02-estudiantes: agrega Optuna para KNN y MLP`. Un *commit* por bloque lógico, no uno por día.
-4. **Resultados:** la corrida oficial que llena las salidas del notebook es la misma que genera sus archivos en `resultados/`, para que las cifras del reporte coincidan exactamente con las del notebook. En Colab, una celda final hace `git pull --rebase`, `git add` solo de los archivos de ese notebook, `commit` y `push` a `main` con la identidad del integrante (guardada en Secrets). Después el notebook se guarda con "Save a copy in GitHub".
+4. **Resultados:** la corrida oficial que llena las salidas del notebook es la misma que genera sus archivos en `resultados/`, para que las cifras del reporte coincidan exactamente con las del notebook. En Colab, una celda final hace `git add` solo de los archivos de ese notebook, `commit`, `git pull --rebase` y `push` a `main`, con la identidad del integrante guardada en Secrets (probado con un remoto que avanzó entre medio). Después el notebook se guarda con "Save a copy in GitHub".
 5. **Archivos de Marcelo:** `utilidades.py`, `requirements.txt`, `README.md`, `.gitignore`, `documentacion/` y `reporte/*.docx`. El .docx es binario y no admite fusión.
 6. **`.gitignore`:** agregar `.DS_Store`, `~$*.docx` (archivos de bloqueo de Word) y `*.tmp`. Los CSV de `datos/` **sí se versionan**: pesan menos de 1 MB y tienen licencia CC BY 4.0, lo que hace el proyecto reproducible.
 7. **Revisión cruzada:** Marcelo revisa cada notebook contra este diseño (por ejemplo, con `git log -p notebooks/02_…`) antes de dar por cerrado cada bloque, y anota las correcciones como *commits* del responsable.
@@ -269,7 +270,7 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 | Día | Código | Reporte |
 |---|---|---|
 | **Dom 22** | Aprobación del diseño | — |
-| **Lun 23** (clase) | Fase 2: `requirements`, `utilidades`, plantillas, README, prueba local y en Colab | Antecedentes y Metodología (borrador) |
+| **Lun 23** (clase) | Fase 2 (adelantada al domingo 22): prueba local y en Colab | Antecedentes y Metodología (borrador) |
 | **Mar 24** | 01 y 03 completos; 02 y 04 hasta las referencias | Experimentación: descripción de los datasets |
 | **Mié 25** (clase) | 02 y 04: Optuna, ablaciones, comparativa; revisión cruzada | Experimentación completa |
 | **Jue 26** | Test final, interpretación, corrida oficial y consolidación | Resultados, Discusión (con ética), Conclusiones, Introducción, Aportes, IA; revisión con los tres skills |
