@@ -10,7 +10,7 @@ Se entrenan y comparan modelos de clasificación para dos conjuntos de datos del
 | [Predict Students' Dropout and Academic Success](https://archive.ics.uci.edu/dataset/697) (Realinho et al., 2022) | Predecir si un estudiante abandona, sigue matriculado o se gradúa (3 clases) | Información disponible **al matricularse** |
 | [Estimation of Obesity Levels Based on Eating Habits and Physical Condition](https://archive.ics.uci.edu/dataset/544) (Mendoza Palechor y De la Hoz Manotas, 2019) | Predecir el nivel de obesidad (7 clases ordenadas) | Hábitos y condición física, **sin estatura ni peso** |
 
-Los métodos nuevos frente a los autores de cada dataset son **KNN** y un **perceptrón multicapa (MLP)**, ajustados con **Optuna**. Todas las decisiones metodológicas y su justificación están en [`documentacion/diseno_experimental.md`](documentacion/diseno_experimental.md).
+Los métodos nuevos frente a los autores de cada dataset son **KNN** y un **perceptrón multicapa (MLP)**, más **XGBoost** en obesidad, ajustados con **Optuna**. Se comparan con el método de los autores (Random Forest y XGBoost en estudiantes; árbol de decisión en obesidad) y con un clasificador trivial. Todas las decisiones metodológicas y su justificación están en [`documentacion/diseno_experimental.md`](documentacion/diseno_experimental.md).
 
 ## Integrantes y responsables
 

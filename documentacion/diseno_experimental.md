@@ -1,9 +1,9 @@
 # Documento de diseño experimental
 
 **Proyecto:** Machine Learning (650064), ULima 2026-2 · **Entrega:** viernes 27/11/2026
-**Versión:** 1.5 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3; 1.4 fija el criterio del test de obesidad y agrega `codificar_objetivo`; 1.5 agrega el barrido de `C` del selector L1 como análisis de sensibilidad (§6) y quita las menciones residuales a los extras descartados) · **Fecha:** 22/11/2026
+**Versión:** 1.5 (aprobada; 1.2 corrige la regla 9 de la sección 12; 1.3 ajusta la partición agrupada en §7 y las funciones de §11.3; 1.4 fija el criterio del test de obesidad y agrega `codificar_objetivo`; 1.5 agrega el barrido de `C` del selector L1 como análisis de sensibilidad (§6) y quita las menciones residuales a los extras descartados; 1.6 incorpora XGBoost como segunda referencia en estudiantes y tercer método nuevo en obesidad (§2, §8, §11.2 y §14)) · **Fecha:** 26/11/2026
 **Base:** `enunciado_proyecto_ML.md`, `2026-11-17_analisis-consigna-proyecto-ML.md` (secciones 2, 9, 10 y 11) y verificación directa de los CSV oficiales de UCI.
-**Estado:** aprobado por Marcelo el 22/11/2026 e implementado (Fase 3 cerrada). Decisiones: Git todo en `main`; reparto de la sección 13; **extras descartados** (§14); barrido de `C` del selector L1 aprobado el 22/11 (v1.5).
+**Estado:** aprobado por Marcelo el 22/11/2026 e implementado (Fase 3 cerrada). Decisiones: Git todo en `main`; reparto de la sección 13; **extras descartados** (§14); barrido de `C` del selector L1 aprobado el 22/11 (v1.5); XGBoost aprobado el 26/11 (v1.6).
 
 ---
 
@@ -12,14 +12,14 @@
 | # | Decisión | Elección |
 |---|---|---|
 | 1 | Escenarios | Obesidad: **E1 con** Height/Weight y **E2 sin** ellos (principal: **E2**). Estudiantes: **E1 matrícula** (24 variables) y **E2 fin del 2.º semestre** (36) (principal: **E1**). |
-| 2 | Métodos nuevos | **MLP + KNN** en ambos datasets. |
-| 3 | Referencias | `DummyClassifier` + método de los autores reproducido: **árbol de decisión (CART ≈ J48)** en obesidad y **Random Forest con sobremuestreo** en estudiantes, ambos ajustados con `GridSearchCV`, como hicieron los autores. |
+| 2 | Métodos nuevos | **MLP + KNN** en ambos datasets; **XGBoost** como tercer método nuevo en obesidad (v1.6). |
+| 3 | Referencias | `DummyClassifier` + método de los autores reproducido: **árbol de decisión (CART ≈ J48)** en obesidad y **Random Forest con sobremuestreo** en estudiantes, ambos ajustados con `GridSearchCV`, como hicieron los autores. En estudiantes, además, **XGBoost** (el mejor modelo de Martins et al., 2021) como segunda referencia, ajustado con Optuna (v1.6). |
 | 4 | MLP | `MLPClassifier` de scikit-learn con *early stopping*. |
 | 5 | Preprocesamiento | Estudiantes: *one-hot* con agrupación de niveles raros. Obesidad: eliminar 24 duplicados exactos y **redondear a la precisión de la encuesta** (borra la huella de SMOTE). Escalado estándar. Todo dentro del `Pipeline`. |
 | 6 | Desbalance | Estudiantes: sin balanceo vs. **SMOTENC** dentro de cada *fold*. Obesidad: no se remuestrea. |
 | 7 | Selección de variables | **L1 (Lasso logístico)** con `SelectFromModel` dentro del `Pipeline`, comparado contra todas las variables, más un **barrido de `C`** como análisis de sensibilidad (v1.5). |
 | 8 | Validación | Test de reserva 80/20 estratificado, fijo y usado una vez. Optuna con CV de 5 *folds*; comparativa con CV 5×3. En obesidad, **partición agrupada** para que filas idénticas no queden a ambos lados. Sin *nested CV*. |
-| 9 | Optuna | TPE, semilla 42; 50 *trials* en KNN y 100 en MLP (cabe en Colab: ~4 s por evaluación). `GridSearchCV` vs. Optuna en KNN. |
+| 9 | Optuna | TPE, semilla 42; 50 *trials* en KNN y en XGBoost, y 100 en MLP (cabe en Colab: ~4 s por evaluación). `GridSearchCV` vs. Optuna en KNN. |
 | 10 | Métricas | Principal: **macro-F1** en ambos. Obesidad: **kappa ponderado cuadrático** como segunda métrica obligatoria. |
 | 11 | Interpretación | Importancia por permutación, matriz de confusión, curva de aprendizaje y Wilcoxon (con su limitación declarada). |
 | 12 | Git | **Todo en `main`**, *commits* pequeños, un responsable por archivo; resultados versionados por la misma corrida que genera el notebook. |
@@ -86,12 +86,14 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 | **MLP** | ✅ limpio | ✅ defendible (declarar Molina et al., 2021) | Datos tabulares → MLP (PPT de tipos de redes). Capta interacciones no lineales entre hábitos sin especificarlas. Su ajuste con Optuna cumple la estrategia (b) | Curso (redes neuronales) |
 
 - **Descartados:** SVM y RF en obesidad (Molina et al. los usaron); AdaBoost en estudiantes (frontera por LogitBoost) y en obesidad mientras no se dicte; LDA/QDA y regresión ordinal (no vistos en el curso).
-- **Elección:** MLP + KNN en ambos datasets. XGBoost, que figuraba como tercer método opcional en obesidad, se descartó el 22/11 junto con los demás extras (§14).
+- **Elección:** MLP + KNN en ambos datasets. XGBoost, que figuraba como tercer método opcional en obesidad, se descartó el 22/11 junto con los demás extras (§14), y **se reincorporó el 26/11 (v1.6)**: el enunciado de entrega pide comparar al menos cuatro modelos de ML por dataset, y el Dummy, que no aprende, podía no contarse.
+- **XGBoost en obesidad (v1.6):** tercer método nuevo. No lo usaron los autores (J48, Naive Bayes y regresión logística) ni Molina et al. (2021). Es un *boosting* de árboles (Chen y Guestrin, 2016): construye árboles en secuencia, cada uno corrigiendo los errores de los anteriores, y regulariza las hojas. Se usó en el material del curso (notebook de balanceo de la semana 10) y aporta un tipo de modelo distinto de KNN (distancias) y del MLP (red neuronal).
 
 ### 2.2 Modelos de referencia (mismas particiones, mismo preprocesamiento, mismas métricas)
 - `DummyClassifier(strategy="most_frequent")`: el piso.
 - **Obesidad:** `DecisionTreeClassifier(criterion="entropy")` como aproximación a J48. Se declara que CART no es C4.5: CART hace cortes binarios y otra poda, y C4.5 usa *gain ratio* y cortes múltiples en categóricas. Se ajusta con `GridSearchCV` (`max_depth` ∈ {3, 5, 8, 12, None}; `min_samples_leaf` ∈ {1, 5, 10}).
 - **Estudiantes:** `RandomForestClassifier` con el mismo sobremuestreo que los modelos nuevos y `GridSearchCV` (`n_estimators` ∈ {200, 500}; `max_depth` ∈ {None, 10, 20}; `max_features` ∈ {"sqrt", 0.5}). Es el método de referencia que los mismos autores eligieron en su trabajo de 2023 y está en el curso.
+- **Estudiantes, segunda referencia (v1.6):** `XGBClassifier`, el mejor modelo de Martins et al. (2021). Como ellos ajustaron el *boosting* con búsqueda aleatoria y no con malla, se ajusta con Optuna (50 *trials*, mismo espacio que en obesidad), con el balanceo {no, SMOTENC} como hiperparámetro. No cuenta como método nuevo.
 
 ## 3. Implementación del MLP
 
@@ -177,6 +179,7 @@ Modelos sin ajustar, 5 *folds*, 2 CPU como Colab gratuito.
 | Modelo | Espacio de búsqueda |
 |---|---|
 | KNN | `n_neighbors` 1–50; `weights` {uniform, distance}; `p` {1 Manhattan, 2 Euclídea}; balanceo {no, SMOTENC} en estudiantes |
+| XGBoost (v1.6) | `n_estimators` 100–500 (paso 50); `max_depth` 2–8; `learning_rate` 0.01–0.3 (log); `subsample` 0.6–1; `colsample_bytree` 0.5–1; `min_child_weight` 1–10; `reg_lambda` 1e-3–10 (log); `tree_method="hist"`, `n_jobs=1` (la CV ya paraleliza); balanceo {no, SMOTENC} en estudiantes |
 | MLP | capas {1, 2, 3}; neuronas por capa 16–256 (escala log); `activation` {relu, tanh}; `solver` {adam, sgd con momentum 0.9}; `alpha` 1e-6–1e-1 (log); `learning_rate_init` 1e-4–1e-1 (log); `batch_size` {32, 64, 128, 256}; balanceo {no, SMOTENC} en estudiantes |
 
 - **Comparación con `GridSearchCV` (visto en clase), en KNN y en el escenario principal:** malla completa (50 × 2 × 2 = 200 combinaciones) contra 50 *trials* de Optuna. Se comparan el mejor macro-F1, el número de evaluaciones y el tiempo. Para el MLP, una malla mínima del espacio tendría unas 3000 combinaciones (más de 3 h con el costo medido): ese número se reporta como argumento de por qué se necesita una búsqueda eficiente.
@@ -227,6 +230,7 @@ El número es el de la tabla o figura candidata en el reporte; el sufijo indica 
 | `tabla_06_ablaciones_{…}.csv` | 02, 04 | Balanceo y selección | **R** (fusionada con la 03 si falta espacio) |
 | `tabla_07_sensibilidad_protocolo_obesidad.csv` | 04 | Protocolo ingenuo vs. elegido; test en filas reales | **R** |
 | `tabla_08_seleccion_c_{…}.csv` | 02, 04 | Barrido de `C` del selector L1: macro-F1 y columnas conservadas por *fold* (v1.5) | **R** (fusionada con la 06 si falta espacio) |
+| `tabla_09_puntajes_cv_{…}.csv` | 02, 04 | Los 15 valores de macro-F1 de la CV 5×3 por modelo y escenario (v1.6) | Insumo de la figura de la comparativa |
 | `figura_01_flujo_trabajo.png` | Script aparte (no son datos) | Figura de la Metodología | **R** |
 | `figura_02_target_{…}.png` | 01, 03 | Distribución del target | **R** (combinada) |
 | `figura_03_huella_sintetica_obesidad.png` | 03 | Proporción real por clase y sexo por clase | **R** |
@@ -235,6 +239,7 @@ El número es el de la tabla o figura candidata en el reporte; el sufijo indica 
 | `figura_06_curva_aprendizaje_{…}.png` | 02, 04 | Curva de aprendizaje | Solo notebook |
 | `figura_07_optuna_historial_{…}.png` | 02, 04 | Historial de Optuna del MLP | Solo notebook |
 | `figura_08_seleccion_c_{…}.png` | 02, 04 | Macro-F1 y columnas conservadas según `C` (v1.5; el número quedó libre al descartar NSGA-II) | Si hay espacio |
+| `figura_09_comparativa_cv_{…}.png` | 02, 04 | Diagrama de caja de los 15 *folds* por modelo en el escenario principal (v1.6) | **R** |
 | `resultados_{estudiantes,obesidad}.csv` | 02, 04 | Registro largo: dataset, escenario, modelo, configuración, métrica, media, desviación, partición | — |
 | `resultados_experimentos.csv` | `utilidades.consolidar_resultados()` | Une los dos anteriores | — |
 
@@ -283,12 +288,12 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 | **Jue 26** | Test final, interpretación, corrida oficial y consolidación | Resultados, Discusión (con ética), Conclusiones, Introducción, Aportes, IA; revisión con los tres skills |
 | **Vie 27** | Control de calidad final (Fase 5), etiqueta `v2-entrega`, acceso del profesor | Ajustes finales y envío |
 
-**Alcance mínimo garantizado:** 2 escenarios × 2 datasets; Dummy + 1 método de los autores; KNN y MLP con Optuna; `GridSearchCV` vs. Optuna en KNN; balanceo en estudiantes; selección L1 con barrido de `C` (v1.5); CV 5×3; test final; matriz de confusión; importancia por permutación; curva de aprendizaje; Wilcoxon; sensibilidad del protocolo en obesidad.
+**Alcance mínimo garantizado:** 2 escenarios × 2 datasets; Dummy + 1 método de los autores (2 en estudiantes, con XGBoost); KNN y MLP con Optuna (más XGBoost en obesidad, v1.6); `GridSearchCV` vs. Optuna en KNN; balanceo en estudiantes; selección L1 con barrido de `C` (v1.5); CV 5×3; test final; matriz de confusión; importancia por permutación; curva de aprendizaje; Wilcoxon; sensibilidad del protocolo en obesidad.
 
 **Extras: descartados por decisión del equipo (22/11).** El alcance mínimo quedó cumplido y el equipo decidió no agregar temas nuevos, para que el trabajo se mantenga dentro de lo visto en el curso y cualquier integrante pueda explicarlo. Lista original, solo como referencia:
-1. XGBoost en obesidad.
+1. XGBoost en obesidad (**reincorporado el 26/11, v1.6**).
 2. NSGA-II en el MLP.
-3. XGBoost como segunda referencia en estudiantes.
+3. XGBoost como segunda referencia en estudiantes (**reincorporado el 26/11, v1.6**).
 4. Sensibilidad sin Gender (obesidad) y sin Debtor ni Tuition fees (estudiantes E1).
 5. RF como segundo selector de variables.
 6. Friedman.
@@ -300,7 +305,8 @@ Cada notebook escribe **su propio** archivo de resultados para que dos personas 
 ### 15.1 Contra la consigna
 | Requisito | Dónde se cumple |
 |---|---|
-| ≥ 2 métodos no usados por los autores, justificados | §2.1 (KNN y MLP en ambos) |
+| ≥ 2 métodos no usados por los autores, justificados | §2.1 (KNN y MLP en ambos; XGBoost además en obesidad) |
+| Comparar al menos 4 modelos de ML (enunciado de entrega) | Estudiantes: RF y XGBoost (autores), KNN y MLP; obesidad: árbol (autores), KNN, MLP y XGBoost; más el Dummy como piso (v1.6) |
 | Valores faltantes | §0 y notebooks 01/03, sección 2 |
 | Selección de *features* | §6 |
 | Ajuste de hiperparámetros | §8 y §2.2 (`GridSearchCV` en las referencias) |

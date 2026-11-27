@@ -21,7 +21,7 @@ PASOS = [
     ("2. Escenarios", "Según la información\ndisponible en cada momento"),
     ("3. Partición", "Test reservado de 20 %\n(agrupado en obesidad)"),
     ("4. Preprocesamiento", "Pipeline: codificación,\nescalado, SMOTENC, L1"),
-    ("5. Modelado", "Dummy y autores (Grid)\nKNN y MLP (Optuna, TPE)"),
+    ("5. Modelado", "Dummy y autores (Grid)\nKNN, MLP y XGBoost (Optuna)"),
     ("6. Comparativa", "CV 5×3, Wilcoxon,\nablaciones y sensibilidad"),
     ("7. Test e interpretación", "Métricas finales, confusión,\npermutación, aprendizaje"),
 ]
