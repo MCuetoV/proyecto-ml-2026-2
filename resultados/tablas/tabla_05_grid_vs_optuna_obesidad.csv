@@ -1,3 +1,3 @@
 busqueda,evaluaciones,mejor_macro_f1_cv,segundos,mejores_parametros
-GridSearchCV (malla completa),200,0.6697174045812471,1.244359016418457,"{'modelo__n_neighbors': 5, 'modelo__p': 1, 'modelo__weights': 'distance'}"
-Optuna (TPE),50,0.6697174045812471,5.611140966415405,"{'n_neighbors': 5, 'weights': 'distance', 'p': 1}"
+GridSearchCV (malla completa),200,0.6697174045812471,1.2495510578155518,"{'modelo__n_neighbors': 5, 'modelo__p': 1, 'modelo__weights': 'distance'}"
+Optuna (TPE),50,0.6697174045812471,5.622678995132446,"{'n_neighbors': 5, 'weights': 'distance', 'p': 1}"

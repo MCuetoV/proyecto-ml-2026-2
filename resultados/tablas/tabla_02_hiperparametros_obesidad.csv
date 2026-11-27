@@ -3,5 +3,7 @@ modelo,escenario,busqueda,evaluaciones,mejor_macro_f1_cv,hiperparametros
 Árbol (autores),E2,GridSearchCV,15,0.6648843400701562,"{'max_depth': 12, 'min_samples_leaf': 1}"
 KNN,E1,Optuna (TPE),50,0.8213169587451855,"{'n_neighbors': 3, 'weights': 'distance', 'p': 1}"
 MLP,E1,Optuna (TPE),100,0.9565769708154258,"{'capas': 3, 'neuronas_1': 195, 'neuronas_2': 56, 'neuronas_3': 72, 'activation': 'tanh', 'solver': 'adam', 'alpha': 0.030472004901296534, 'learning_rate_init': 0.001788200429735416, 'batch_size': 128}"
+XGBoost,E1,Optuna (TPE),50,0.9649517136355262,"{'n_estimators': 300, 'max_depth': 6, 'learning_rate': 0.14377372818077871, 'subsample': 0.9211458172304448, 'colsample_bytree': 0.77193463771171, 'min_child_weight': 1, 'reg_lambda': 0.006714850054660371}"
 KNN,E2,Optuna (TPE),50,0.6697174045812471,"{'n_neighbors': 5, 'weights': 'distance', 'p': 1}"
 MLP,E2,Optuna (TPE),100,0.7202281666224963,"{'capas': 2, 'neuronas_1': 166, 'neuronas_2': 158, 'activation': 'relu', 'solver': 'adam', 'alpha': 0.010070162671914623, 'learning_rate_init': 0.013580422575892483, 'batch_size': 128}"
+XGBoost,E2,Optuna (TPE),50,0.7864508022223856,"{'n_estimators': 300, 'max_depth': 8, 'learning_rate': 0.03294744403484492, 'subsample': 0.9354403232337782, 'colsample_bytree': 0.7273151313134274, 'min_child_weight': 1, 'reg_lambda': 0.3353789549071727}"

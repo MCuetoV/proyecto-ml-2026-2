@@ -5,8 +5,10 @@ estudiantes,E1,RF (autores),"{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight
 estudiantes,E2,RF (autores),"{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'n_estimators': 200, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}",f1_macro,0.7155373011537207,0.0154531222779012,CV
 estudiantes,E1,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 34, 'p': 1, 'weights': 'distance'}",f1_macro,0.4904284998139209,0.0146432683359894,CV
 estudiantes,E1,MLP,"{'activation': 'relu', 'alpha': 0.09332383830975852, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (134,), 'learning_rate': 'constant', 'learning_rate_init': 0.0028594642755066916, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'adam', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.552266968473287,0.0304401684299133,CV
+estudiantes,E1,XGBoost (autores),"{'objective': 'binary:logistic', 'base_score': None, 'booster': None, 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.5020776640710547, 'device': None, 'early_stopping_rounds': None, 'enable_categorical': True, 'eval_metric': None, 'feature_types': None, 'feature_weights': None, 'gamma': None, 'grow_policy': None, 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.03873400019493058, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 4, 'max_leaves': None, 'min_child_weight': 2, 'missing': nan, 'monotone_constraints': None, 'multi_strategy': None, 'n_estimators': 400, 'n_jobs': 1, 'num_parallel_tree': None, 'random_state': 42, 'reg_alpha': None, 'reg_lambda': 0.011663685362902534, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': 0.7469352881248789, 'tree_method': 'hist', 'validate_parameters': None, 'verbosity': 0}",f1_macro,0.5846180135428369,0.0190294248572498,CV
 estudiantes,E2,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 21, 'p': 1, 'weights': 'distance'}",f1_macro,0.6381052261884773,0.0109401221963758,CV
 estudiantes,E2,MLP,"{'activation': 'tanh', 'alpha': 0.03060828340777172, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (24, 184), 'learning_rate': 'constant', 'learning_rate_init': 0.027819417887869086, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'sgd', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.6924482094444678,0.0244266026292293,CV
+estudiantes,E2,XGBoost (autores),"{'objective': 'binary:logistic', 'base_score': None, 'booster': None, 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.8537708411134538, 'device': None, 'early_stopping_rounds': None, 'enable_categorical': True, 'eval_metric': None, 'feature_types': None, 'feature_weights': None, 'gamma': None, 'grow_policy': None, 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.013674737827806137, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 6, 'max_leaves': None, 'min_child_weight': 5, 'missing': nan, 'monotone_constraints': None, 'multi_strategy': None, 'n_estimators': 500, 'n_jobs': 1, 'num_parallel_tree': None, 'random_state': 42, 'reg_alpha': None, 'reg_lambda': 0.07503116089361354, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': 0.7156291859360019, 'tree_method': 'hist', 'validate_parameters': None, 'verbosity': 0}",f1_macro,0.723752387956161,0.0150902476987803,CV
 estudiantes,E1,KNN,balanceo: sin balanceo,f1_macro,0.436008257766366,0.0146780901678758,CV
 estudiantes,E1,KNN,balanceo: SMOTENC,f1_macro,0.4904284998139209,0.0146432683359894,CV
 estudiantes,E1,MLP,balanceo: sin balanceo,f1_macro,0.552266968473287,0.0304401684299133,CV
@@ -54,6 +56,12 @@ estudiantes,E1,MLP,final,precision_macro,0.5520129764012637,,test
 estudiantes,E1,MLP,final,recall_macro,0.5276261332091318,,test
 estudiantes,E1,MLP,final,f1_macro,0.5286127776450598,,test
 estudiantes,E1,MLP,final,roc_auc_ovr,0.7594288946184583,,test
+estudiantes,E1,XGBoost (autores),final,accuracy,0.6011299435028249,,test
+estudiantes,E1,XGBoost (autores),final,balanced_accuracy,0.5610394440215765,,test
+estudiantes,E1,XGBoost (autores),final,precision_macro,0.5569681848164167,,test
+estudiantes,E1,XGBoost (autores),final,recall_macro,0.5610394440215765,,test
+estudiantes,E1,XGBoost (autores),final,f1_macro,0.5572834234957926,,test
+estudiantes,E1,XGBoost (autores),final,roc_auc_ovr,0.7680728722294085,,test
 estudiantes,E2,KNN,final,accuracy,0.656497175141243,,test
 estudiantes,E2,KNN,final,balanced_accuracy,0.6223195486416321,,test
 estudiantes,E2,KNN,final,precision_macro,0.6450324450324451,,test
@@ -66,11 +74,17 @@ estudiantes,E2,MLP,final,precision_macro,0.7069673265716432,,test
 estudiantes,E2,MLP,final,recall_macro,0.6826420879546514,,test
 estudiantes,E2,MLP,final,f1_macro,0.6894366120233667,,test
 estudiantes,E2,MLP,final,roc_auc_ovr,0.8809764149574638,,test
+estudiantes,E2,XGBoost (autores),final,accuracy,0.7344632768361582,,test
+estudiantes,E2,XGBoost (autores),final,balanced_accuracy,0.6856018291942383,,test
+estudiantes,E2,XGBoost (autores),final,precision_macro,0.6858018648018648,,test
+estudiantes,E2,XGBoost (autores),final,recall_macro,0.6856018291942383,,test
+estudiantes,E2,XGBoost (autores),final,f1_macro,0.683046226806599,,test
+estudiantes,E2,XGBoost (autores),final,roc_auc_ovr,0.8830563194616637,,test
 estudiantes,E1,KNN,seleccion L1: C=0.01,f1_macro,0.4998477118820412,0.0106740198498153,CV
 estudiantes,E1,KNN,seleccion L1: C=0.01,columnas_conservadas,7.533333333333333,,CV
 estudiantes,E1,KNN,seleccion L1: C=0.05,f1_macro,0.5076213306812616,0.0192529327881376,CV
 estudiantes,E1,KNN,seleccion L1: C=0.05,columnas_conservadas,43.0,,CV
-estudiantes,E1,KNN,seleccion L1: C=0.1,f1_macro,0.4978451656141427,0.0134291592955166,CV
+estudiantes,E1,KNN,seleccion L1: C=0.1,f1_macro,0.4982612097887102,0.0124101647846897,CV
 estudiantes,E1,KNN,seleccion L1: C=0.1,columnas_conservadas,65.93333333333334,,CV
 estudiantes,E1,KNN,seleccion L1: C=0.5,f1_macro,0.4925573703603531,0.0137877727735113,CV
 estudiantes,E1,KNN,seleccion L1: C=0.5,columnas_conservadas,85.66666666666667,,CV
@@ -82,8 +96,8 @@ estudiantes,E1,MLP,seleccion L1: C=0.05,f1_macro,0.514098076139449,0.02593236862
 estudiantes,E1,MLP,seleccion L1: C=0.05,columnas_conservadas,20.2,,CV
 estudiantes,E1,MLP,seleccion L1: C=0.1,f1_macro,0.5443763622489802,0.0154476090762984,CV
 estudiantes,E1,MLP,seleccion L1: C=0.1,columnas_conservadas,41.666666666666664,,CV
-estudiantes,E1,MLP,seleccion L1: C=0.5,f1_macro,0.5491476021352301,0.0224440609546468,CV
-estudiantes,E1,MLP,seleccion L1: C=0.5,columnas_conservadas,83.2,,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,f1_macro,0.5491169112949611,0.0224438100476507,CV
+estudiantes,E1,MLP,seleccion L1: C=0.5,columnas_conservadas,83.13333333333334,,CV
 estudiantes,E1,MLP,seleccion L1: C=1,f1_macro,0.5458947634729991,0.0293885464157141,CV
 estudiantes,E1,MLP,seleccion L1: C=1,columnas_conservadas,88.13333333333334,,CV
 obesidad,E1,Dummy,"{'constant': None, 'random_state': None, 'strategy': 'most_frequent'}",f1_macro,0.0410327160915262,0.0010531141444638,CV
@@ -92,8 +106,10 @@ obesidad,E1,Árbol (autores),"{'ccp_alpha': 0.0, 'class_weight': None, 'criterio
 obesidad,E2,Árbol (autores),"{'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'entropy', 'max_depth': 12, 'max_features': None, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'monotonic_cst': None, 'random_state': 42, 'splitter': 'best'}",f1_macro,0.6617657178532894,0.0210117563423044,CV
 obesidad,E1,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 3, 'p': 1, 'weights': 'distance'}",f1_macro,0.8120588408832496,0.0139382809287532,CV
 obesidad,E1,MLP,"{'activation': 'tanh', 'alpha': 0.030472004901296534, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (195, 56, 72), 'learning_rate': 'constant', 'learning_rate_init': 0.001788200429735416, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'adam', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.9502178211953486,0.0108018590629351,CV
+obesidad,E1,XGBoost,"{'objective': 'binary:logistic', 'base_score': None, 'booster': None, 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.77193463771171, 'device': None, 'early_stopping_rounds': None, 'enable_categorical': True, 'eval_metric': None, 'feature_types': None, 'feature_weights': None, 'gamma': None, 'grow_policy': None, 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.14377372818077871, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 6, 'max_leaves': None, 'min_child_weight': 1, 'missing': nan, 'monotone_constraints': None, 'multi_strategy': None, 'n_estimators': 300, 'n_jobs': 1, 'num_parallel_tree': None, 'random_state': 42, 'reg_alpha': None, 'reg_lambda': 0.006714850054660371, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': 0.9211458172304448, 'tree_method': 'hist', 'validate_parameters': None, 'verbosity': 0}",f1_macro,0.9654961192578912,0.0093315549367122,CV
 obesidad,E2,KNN,"{'algorithm': 'auto', 'leaf_size': 30, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 5, 'p': 1, 'weights': 'distance'}",f1_macro,0.6582831540933596,0.022328573551163,CV
 obesidad,E2,MLP,"{'activation': 'relu', 'alpha': 0.010070162671914623, 'batch_size': 128, 'beta_1': 0.9, 'beta_2': 0.999, 'early_stopping': True, 'epsilon': 1e-08, 'hidden_layer_sizes': (166, 158), 'learning_rate': 'constant', 'learning_rate_init': 0.013580422575892483, 'max_fun': 15000, 'max_iter': 500, 'momentum': 0.9, 'n_iter_no_change': 10, 'nesterovs_momentum': True, 'power_t': 0.5, 'random_state': 42, 'shuffle': True, 'solver': 'adam', 'tol': 0.0001, 'validation_fraction': 0.1, 'verbose': False, 'warm_start': False}",f1_macro,0.7010155150582321,0.0322878093699399,CV
+obesidad,E2,XGBoost,"{'objective': 'binary:logistic', 'base_score': None, 'booster': None, 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.7273151313134274, 'device': None, 'early_stopping_rounds': None, 'enable_categorical': True, 'eval_metric': None, 'feature_types': None, 'feature_weights': None, 'gamma': None, 'grow_policy': None, 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.03294744403484492, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 8, 'max_leaves': None, 'min_child_weight': 1, 'missing': nan, 'monotone_constraints': None, 'multi_strategy': None, 'n_estimators': 300, 'n_jobs': 1, 'num_parallel_tree': None, 'random_state': 42, 'reg_alpha': None, 'reg_lambda': 0.3353789549071727, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': 0.9354403232337782, 'tree_method': 'hist', 'validate_parameters': None, 'verbosity': 0}",f1_macro,0.765176393078487,0.0280254316715199,CV
 obesidad,E2,KNN,seleccion: todas las variables,f1_macro,0.6582831540933596,0.022328573551163,CV
 obesidad,E2,KNN,seleccion: selector L1,f1_macro,0.6582831540933596,0.022328573551163,CV
 obesidad,E2,MLP,seleccion: todas las variables,f1_macro,0.7010155150582321,0.0322878093699399,CV
@@ -140,6 +156,13 @@ obesidad,E1,MLP,final,recall_macro,0.9448913745178374,,test
 obesidad,E1,MLP,final,f1_macro,0.9455854952150352,,test
 obesidad,E1,MLP,final,roc_auc_ovr,0.9980900889261944,,test
 obesidad,E1,MLP,final,kappa_cuadratico,0.9931783352514296,,test
+obesidad,E1,XGBoost,final,accuracy,0.971153846153846,,test
+obesidad,E1,XGBoost,final,balanced_accuracy,0.9714028273297428,,test
+obesidad,E1,XGBoost,final,precision_macro,0.97043699341836,,test
+obesidad,E1,XGBoost,final,recall_macro,0.9714028273297428,,test
+obesidad,E1,XGBoost,final,f1_macro,0.970810196451198,,test
+obesidad,E1,XGBoost,final,roc_auc_ovr,0.9987201543692112,,test
+obesidad,E1,XGBoost,final,kappa_cuadratico,0.996313298711427,,test
 obesidad,E2,KNN,final,accuracy,0.6899038461538461,,test
 obesidad,E2,KNN,final,balanced_accuracy,0.6889459309323103,,test
 obesidad,E2,KNN,final,precision_macro,0.6891460677838388,,test
@@ -154,6 +177,13 @@ obesidad,E2,MLP,final,recall_macro,0.7060541372996998,,test
 obesidad,E2,MLP,final,f1_macro,0.7078690099907491,,test
 obesidad,E2,MLP,final,roc_auc_ovr,0.92266081537551,,test
 obesidad,E2,MLP,final,kappa_cuadratico,0.8489705371381734,,test
+obesidad,E2,XGBoost,final,accuracy,0.7956730769230769,,test
+obesidad,E2,XGBoost,final,balanced_accuracy,0.7921305198239806,,test
+obesidad,E2,XGBoost,final,precision_macro,0.7893223457006538,,test
+obesidad,E2,XGBoost,final,recall_macro,0.7921305198239806,,test
+obesidad,E2,XGBoost,final,f1_macro,0.79005687712366,,test
+obesidad,E2,XGBoost,final,roc_auc_ovr,0.9649344059398928,,test
+obesidad,E2,XGBoost,final,kappa_cuadratico,0.8847748719410591,,test
 obesidad,E2,KNN,seleccion L1: C=0.01,f1_macro,0.3982936257040065,0.0526235012153377,CV
 obesidad,E2,KNN,seleccion L1: C=0.01,columnas_conservadas,5.0,,CV
 obesidad,E2,KNN,seleccion L1: C=0.05,f1_macro,0.6630050757069095,0.0197875971909143,CV

@@ -1,5 +1,5 @@
 busqueda,evaluaciones,mejor_macro_f1_cv,segundos,mejores_parametros
-GridSearchCV (malla completa),400,0.495680891884217,30.024057865142822,"{'balanceo': SMOTENC(categorical_features=['Marital status', 'Application mode', 'Course',
+GridSearchCV (malla completa),400,0.495680891884217,30.67329978942871,"{'balanceo': SMOTENC(categorical_features=['Marital status', 'Application mode', 'Course',
                               'Previous qualification', 'Nacionality',
                               ""Mother's qualification"",
                               ""Father's qualification"", ""Mother's occupation"",
@@ -9,4 +9,4 @@ GridSearchCV (malla completa),400,0.495680891884217,30.024057865142822,"{'balanc
                               'Tuition fees up to date', 'Gender',
                               'Scholarship holder', 'International'],
         random_state=42), 'modelo__n_neighbors': 34, 'modelo__p': 1, 'modelo__weights': 'distance'}"
-Optuna (TPE),50,0.495680891884217,10.513617038726807,"{'n_neighbors': 34, 'weights': 'distance', 'p': 1, 'balanceo': True}"
+Optuna (TPE),50,0.495680891884217,10.62503719329834,"{'n_neighbors': 34, 'weights': 'distance', 'p': 1, 'balanceo': True}"

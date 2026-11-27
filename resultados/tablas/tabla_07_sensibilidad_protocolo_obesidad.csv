@@ -2,18 +2,24 @@ protocolo,modelo,media,desviacion,particion,metrica
 "ingenuo: sin redondear, sin agrupar",Árbol (autores),0.7212677535727721,0.023324372801612807,CV 5×3 (train),
 "ingenuo: sin redondear, sin agrupar",KNN,0.7755066842190096,0.019292428119395064,CV 5×3 (train),
 "ingenuo: sin redondear, sin agrupar",MLP,0.7521213512820413,0.01933442896908983,CV 5×3 (train),
+"ingenuo: sin redondear, sin agrupar",XGBoost,0.8345634416210669,0.013814479752517999,CV 5×3 (train),
 "redondeado, sin agrupar",Árbol (autores),0.7086181504474133,0.026055788015855442,CV 5×3 (train),
 "redondeado, sin agrupar",KNN,0.7155212481172231,0.01266600920479768,CV 5×3 (train),
 "redondeado, sin agrupar",MLP,0.7279057410536732,0.02076124762884485,CV 5×3 (train),
+"redondeado, sin agrupar",XGBoost,0.7883503586621374,0.019578274466541753,CV 5×3 (train),
 elegido: redondeado y agrupado,Árbol (autores),0.6617657178532894,0.021011756342304424,CV 5×3 (train),
 elegido: redondeado y agrupado,KNN,0.6582831540933596,0.02232857355116305,CV 5×3 (train),
 elegido: redondeado y agrupado,MLP,0.7010155150582321,0.03228780936993999,CV 5×3 (train),
+elegido: redondeado y agrupado,XGBoost,0.765176393078487,0.028025431671519968,CV 5×3 (train),
 "test, solo filas probablemente reales",Árbol (autores),0.45454545454545453,,,accuracy
 "test, solo filas probablemente reales",KNN,0.41414141414141414,,,accuracy
 "test, solo filas probablemente reales",MLP,0.45454545454545453,,,accuracy
+"test, solo filas probablemente reales",XGBoost,0.5252525252525253,,,accuracy
 "test, solo filas probablemente reales",Árbol (autores),0.2664335597890636,,,f1_macro
 "test, solo filas probablemente reales",KNN,0.2893535036392179,,,f1_macro
 "test, solo filas probablemente reales",MLP,0.2510174605933551,,,f1_macro
+"test, solo filas probablemente reales",XGBoost,0.32367558881958086,,,f1_macro
 "test, solo filas probablemente reales",Árbol (autores),0.3524620510921882,,,kappa_cuadratico
 "test, solo filas probablemente reales",KNN,0.2956620285840207,,,kappa_cuadratico
 "test, solo filas probablemente reales",MLP,0.32061331725385467,,,kappa_cuadratico
+"test, solo filas probablemente reales",XGBoost,0.35100206031091974,,,kappa_cuadratico
